@@ -7,18 +7,15 @@ vex::competition Competition;
 
 //This is the beginning of autonomous function callback constructors.
 
+//this function is for going straight
+
+    int thresh = 20;
 void drive(int dist,int fast) {
 
   while(lf.rotation(vex::rotationUnits::deg)<dist){
 
-    int thresh = 20;
     int currentdist = ( lf.rotation(vex::rotationUnits::deg) + lb.rotation(vex::rotationUnits::deg) + rf.rotation(vex::rotationUnits::deg) + rb.rotation(vex::rotationUnits::deg)  )/4;
     int topspeed = (fast * ( 1- ( currentdist / (dist -thresh) ) ) );
-
-    lf.setVelocity(topspeed,vex::velocityUnits::rpm);
-    lb.setVelocity(topspeed,vex::velocityUnits::rpm);
-    rf.setVelocity(topspeed,vex::velocityUnits::rpm);
-    rb.setVelocity(topspeed,vex::velocityUnits::rpm);
 
     lf.startRotateTo(dist,vex::rotationUnits::deg,topspeed,vex::velocityUnits::rpm);
     lb.startRotateTo(dist,vex::rotationUnits::deg,topspeed,vex::velocityUnits::rpm);
@@ -30,6 +27,27 @@ void drive(int dist,int fast) {
       rf.resetRotation();
       rb.resetRotation();
         }
+
+void turn(int ldist, int rdist, int tspeed){
+  int lrot = (lf.rotation(vex::rotationUnits::deg)+lb.rotation(vex::rotationUnits::deg)/2);
+  int rrot = (rf.rotation(vex::rotationUnits::deg)+rb.rotation(vex::rotationUnits::deg)/2);
+
+
+  int lspeed = (tspeed * (1- (rrot) / (ldist-thresh) ) );
+  int rspeed = (tspeed * (1- (rrot) / (ldist-thresh) ) );
+  
+  while(ldist<lf.rotation(vex::rotationUnits::deg)&&rdist<rf.rotation(vex::rotationUnits::deg)){
+    lf.startRotateTo(ldist,vex::rotationUnits::deg,lspeed,vex::velocityUnits::rpm);
+    lb.startRotateTo(ldist,vex::rotationUnits::deg,lspeed,vex::velocityUnits::rpm);
+    rf.startRotateTo(rdist,vex::rotationUnits::deg,rspeed,vex::velocityUnits::rpm);
+    rb.startRotateTo(rdist,vex::rotationUnits::deg,rspeed,vex::velocityUnits::rpm);
+
+    }//end of while loop
+      lf.resetRotation();
+      lb.resetRotation();
+      rf.resetRotation();
+      rb.resetRotation();
+      }
 
 void lto(int rot, int pow, int f) {
   if(f==0){
