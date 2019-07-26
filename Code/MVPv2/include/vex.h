@@ -21,22 +21,15 @@ vex::controller Controller1 = vex::controller();
 //this declares the drive motors.
 vex::motor leftFrontDrive(vex::PORT1,false);
 vex::motor leftBackDrive(vex::PORT2,false);
-vex::motor rightFrontDrive(vex::PORT9,true);
-vex::motor rightBackDrive(vex::PORT10,true);
+vex::motor rightFrontDrive(vex::PORT9);
+vex::motor rightBackDrive(vex::PORT10);
 
 //This declares the lift motors.
 vex::motor liftLeft(vex::PORT11,false);
 vex::motor liftRight(vex::PORT20);
 
+//This declares the intake motors.
+vex::motor intakeLeft(vex::PORT12,false);
+vex::motor intakeRight(vex::PORT19,false);
 
 
-/*
-//il,ir intake left / intake right
-
-
-vex::motor il(vex::PORT6,false);
-vex::motor ir(vex::PORT7,true);
-//mi = main intake reverse as neccesary
-vex::motor mi(vex::PORT8,true);
-
-*/
