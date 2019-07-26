@@ -51,9 +51,11 @@ void turn(int ldist, int rdist, int tspeed){
 
 void lto(int rot, int pow, int f) {
   if(f==0){
-    l.rotateTo(rot,vex::rotationUnits::deg,pow,vex::velocityUnits::pct);
+    liftLeft.rotateTo(rot,vex::rotationUnits::deg,pow,vex::velocityUnits::pct);
+    liftRight.rotateTo(rot,vex::rotationUnits::deg,pow,vex::velocityUnits::pct);
     }else if(f==1){
-      l.rotateTo(rot,vex::rotationUnits::deg,pow,vex::velocityUnits::pct,false);
+      liftLeft.rotateTo(rot,vex::rotationUnits::deg,pow,vex::velocityUnits::pct,false);
+      liftRight.rotateTo(rot,vex::rotationUnits::deg,pow,vex::velocityUnits::pct,false);
 
       }
 }
@@ -110,14 +112,18 @@ void usercontrol( void ) {
 
   //connects the lift to the shoulder buttons.
   if(Controller1.ButtonL1.pressing()){
-    l.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+    liftLeft.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+    liftRight.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
     } else if(Controller1.ButtonL2.pressing()){
-    l.startRotateTo(0,vex::rotationUnits::deg,100,vex::velocityUnits::pct);  
-      } else if(l.rotation(deg)<5){
-        l.stop(vex::brakeType::coast);
-        }else{
-        l.stop(vex::brakeType::hold);
-      }
+    liftLeft.startRotateTo(0,vex::rotationUnits::deg,100,vex::velocityUnits::pct);  
+    liftRight.startRotateTo(0,vex::rotationUnits::deg,100,vex::velocityUnits::pct);  
+      } else if((liftLeft.rotation(vex::rotationUnits::deg)<5)&&(liftRight.rotation(vex::rotationUnits::deg)<5)){
+        liftLeft.stop(vex::brakeType::coast);
+        liftLeft.stop(vex::brakeType::coast);
+          }else{
+          liftLeft.stop(vex::brakeType::hold);
+          liftRight.stop(vex::brakeType::hold);
+            }
 
   //This is the end of the lift constructor.
 
@@ -137,12 +143,14 @@ void usercontrol( void ) {
  
   //This is the start of the main intake constructor.
 
+/*
   if(Controller1.ButtonR2.pressing()){
     intakein();
     l.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
     }else if(Controller1.ButtonA.pressing()){
       intakeout();
       }
+*/
 
   //This is the beginning of targeted button presets. Feel free to set these aside to focus on the MVP
   //line sensor to line up cube with tower intake. 
