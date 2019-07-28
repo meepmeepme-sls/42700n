@@ -10,14 +10,14 @@ vex::competition Competition;
 //this function is for going straight
 
     int thresh = 20;
-void drive(int leftTargetDistance, int rightTargetDistance, int fast) {
+void drive(int leftTargetDistance, int rightTargetDistance, int driveTopSpeed) {
 
   while(leftDrive.rotation(vex::rotationUnits::deg)<leftTargetDistance){
 
     int leftCurrentDistance = ( leftDrive.rotation(vex::rotationUnits::deg)  );
     int rightCurrentDistance = ( rightDrive.rotation(vex::rotationUnits::deg)  );
-    int leftSpeed = ( (thresh*fast) + ((1-thresh)*fast*(1-(leftCurrentDistance/leftTargetDistance))  ) );
-    int rightSpeed = ( (thresh*fast) + ((1-thresh)*fast*(1-(rightCurrentDistance/rightTargetDistance))  ) );
+    int leftSpeed = ( (thresh*driveTopSpeed) + ((1-thresh)*driveTopSpeed*(1-(leftCurrentDistance/leftTargetDistance))  ) );
+    int rightSpeed = ( (thresh*driveTopSpeed) + ((1-thresh)*driveTopSpeed*(1-(rightCurrentDistance/rightTargetDistance))  ) );
 
     leftDrive.startRotateTo(leftTargetDistance,vex::rotationUnits::deg,leftSpeed,vex::velocityUnits::rpm);
     rightDrive.startRotateTo(rightTargetDistance,vex::rotationUnits::deg,rightSpeed,vex::velocityUnits::rpm);
@@ -25,6 +25,17 @@ void drive(int leftTargetDistance, int rightTargetDistance, int fast) {
       leftDrive.resetRotation();
       rightDrive.resetRotation();
         }
+
+void strafe(int strafingTargetDistance, int strafingTopSpeed){
+
+  while(strafingDrive.rotation(vex::rotationUnits::deg)<strafingTargetDistance){
+
+    int strafingCurrentSpeed = ( (thresh*strafingTopSpeed) + ((1-thresh)*strafingTopSpeed*(1-(strafingDrive.rotation(vex::rotationUnits::deg)/strafingTargetDistance) )  ) );
+    strafingDrive.startRotateTo(strafingTargetDistance,vex::rotationUnits::deg,strafingCurrentSpeed,vex::velocityUnits::rpm);
+
+    }
+
+      }
 
 void liftTo(int rotationTarget, int liftTopSpeed, int mode) {
 
@@ -36,35 +47,35 @@ void liftTo(int rotationTarget, int liftTopSpeed, int mode) {
 
   if(mode==0){
 
-    liftLeft.rotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::pct,false);
+    liftLeft.rotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm,false);
 
-    liftRight.rotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::pct);
+    liftRight.rotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm);
     }else if(mode==1){
-      liftLeft.startRotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::pct);
-      liftRight.startRotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::pct);
+      liftLeft.startRotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm);
+      liftRight.startRotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm);
       
       }
         }
           }
 void intake(){
-  intakeLeft.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
-  intakeRight.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+  intakeLeft.spin(vex::directionType::fwd,100,vex::velocityUnits::rpm);
+  intakeRight.spin(vex::directionType::fwd,100,vex::velocityUnits::rpm);
 }
 
 /*
 void intakeout(){
-  mi.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
+  mi.spin(vex::directionType::rev,100,vex::velocityUnits::rpm);
 }
 void intakein(){
-  mi.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+  mi.spin(vex::directionType::fwd,100,vex::velocityUnits::rpm);
 }
 void gin(){
-    ir.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
-    il.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+    ir.spin(vex::directionType::fwd,100,vex::velocityUnits::rpm);
+    il.spin(vex::directionType::fwd,100,vex::velocityUnits::rpm);
 }
 void gout(){
-    ir.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
-    il.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
+    ir.spin(vex::directionType::rev,100,vex::velocityUnits::rpm);
+    il.spin(vex::directionType::rev,100,vex::velocityUnits::rpm);
 
 }
 */
@@ -89,16 +100,16 @@ void usercontrol( void ) {
   int dz = 15;
   
   //These are ternary operators. I'm using them so that the controller is less sensitive. If the value of the joystick does not exceed a certain value it will set the value to zero.
-  int joyStickAxis3 = Controller1.Axis3.value();
-  joyStickAxis3 = abs(joyStickAxis3) > dz ? joyStickAxis3 : 0;
-  int joyStickAxis2 = Controller1.Axis2.value();
-  joyStickAxis2 = abs(joyStickAxis2) > dz ? joyStickAxis2 : 0;
-
+  int leftDriveTeleOp = Controller1.Axis3.value()-Controller1.Axis1.value();
+  leftDriveTeleOp = abs(leftDriveTeleOp) > dz ? leftDriveTeleOp : 0;
+  int RightDriveTeleOp = Controller1.Axis3.value()+Controller1.Axis1.value();
+  RightDriveTeleOp = abs(RightDriveTeleOp) > dz ? RightDriveTeleOp : 0;
+  int strafeDriveTeleOp = Controller1.Axis4.value();
+  strafeDriveTeleOp = abs(strafeDriveTeleOp) > dz ? strafeDriveTeleOp : 0;
       //connects the joysticks with the drive
-      leftDrive.spin(vex::directionType::fwd, joyStickAxis3, vex::velocityUnits::pct);
-      rightDrive.spin(vex::directionType::fwd, joyStickAxis2, vex::velocityUnits::pct);
-      leftDrive.spin(vex::directionType::fwd, joyStickAxis3, vex::velocityUnits::pct);
-      rightDrive.spin(vex::directionType::fwd, joyStickAxis2, vex::velocityUnits::pct);
+      leftDrive.spin(vex::directionType::fwd, leftDriveTeleOp, vex::velocityUnits::rpm);
+      rightDrive.spin(vex::directionType::fwd, RightDriveTeleOp, vex::velocityUnits::rpm);
+      strafingDrive.spin(vex::directionType::fwd,strafeDriveTeleOp,vex::velocityUnits::rpm);
 
   //This is the end of the drive constructor.
 
@@ -108,8 +119,8 @@ void usercontrol( void ) {
   int stopCheck = (liftLeft.velocity(vex::velocityUnits::rpm) + liftRight.velocity(vex::velocityUnits::rpm) )/2;
 
   if(Controller1.ButtonL1.pressing()){
-    liftLeft.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
-    liftRight.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+    liftLeft.spin(vex::directionType::fwd,100,vex::velocityUnits::rpm);
+    liftRight.spin(vex::directionType::fwd,100,vex::velocityUnits::rpm);
       //this check stops the lift from stalling out on top, and lets me know when it is.
       if(stopCheck<20){
         liftLeft.stop(vex::brakeType::coast);
@@ -117,8 +128,8 @@ void usercontrol( void ) {
         Controller1.rumble(".....");
       }
         } else if(Controller1.ButtonL2.pressing()){
-        liftLeft.startRotateTo(0,vex::rotationUnits::deg,100,vex::velocityUnits::pct);  
-        liftRight.startRotateTo(0,vex::rotationUnits::deg,100,vex::velocityUnits::pct);  
+        liftLeft.startRotateTo(0,vex::rotationUnits::deg,100,vex::velocityUnits::rpm);  
+        liftRight.startRotateTo(0,vex::rotationUnits::deg,100,vex::velocityUnits::rpm);  
           } else if((liftLeft.rotation(vex::rotationUnits::deg)<5)&&(liftRight.rotation(vex::rotationUnits::deg)<5)){
             liftLeft.stop(vex::brakeType::coast);
             liftLeft.stop(vex::brakeType::coast);
