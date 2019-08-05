@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       vex.h                                                     */
@@ -14,21 +15,13 @@
 
 #include "v5.h"
 #include "v5_vcs.h"
-
-//This declares the controller as a controller.
 vex::controller Controller1;
 
-//this declares the drive motors.
-vex::motor leftDrive(vex::PORT1,false);
-vex::motor rightDrive(vex::PORT9,true);
-vex::motor strafingDrive(vex::PORT5,true);
-
-//This declares the lift motors.
-vex::motor liftLeft(vex::PORT11,false);
-vex::motor liftRight(vex::PORT20,true);
-
-//This declares the intake motors.
-vex::motor intakeLeft(vex::PORT12,false);
-vex::motor intakeRight(vex::PORT19,true);
-
-vex::motor Tilter(vex::PORT4,false);
+vex::motor leftDrive(vex::PORT1,vex::gearSetting::ratio18_1,false);
+vex::motor rightDrive(vex::PORT5,vex::gearSetting::ratio18_1,false);
+vex::motor liftLeft(vex::PORT11,vex::gearSetting::ratio36_1,true);
+vex::motor liftRight(vex::PORT20,vex::gearSetting::ratio36_1,false);
+vex::motor intakeLeft(vex::PORT12,vex::gearSetting::ratio18_1,false);
+vex::motor intakeRight(vex::PORT19,vex::gearSetting::ratio18_1,true);
+vex::motor strafingDrive(vex::PORT2,vex::gearSetting::ratio18_1,false);
+vex::motor tilterMotor(vex::PORT13,vex::gearSetting::ratio36_1,false);

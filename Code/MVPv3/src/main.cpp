@@ -1,7 +1,7 @@
 //This begins VEX Competition Template constructors.
 #include "vex.h"
 using namespace vex;
-vex::brain       Brain;
+vex::brain Brain;
 vex::competition Competition;
   //This is the end of VEX Competition Template Constructors.
 
@@ -97,15 +97,15 @@ void usercontrol( void ) {
   while (1) {
   
   //This is the beginning of the drive constructor.
-  int dz = 15;
   
   //These are ternary operators. I'm using them so that the controller is less sensitive. If the value of the joystick does not exceed a certain value it will set the value to zero.
   int leftDriveTeleOp = Controller1.Axis3.value()-Controller1.Axis1.value();
-  leftDriveTeleOp = abs(leftDriveTeleOp) > dz ? leftDriveTeleOp : 0;
   int RightDriveTeleOp = Controller1.Axis3.value()+Controller1.Axis1.value();
-  RightDriveTeleOp = abs(RightDriveTeleOp) > dz ? RightDriveTeleOp : 0;
   int strafeDriveTeleOp = Controller1.Axis4.value();
-  strafeDriveTeleOp = abs(strafeDriveTeleOp) > dz ? strafeDriveTeleOp : 0;
+  Controller1.Screen.clearScreen();
+Controller1.Screen.setCursor(1,1);
+Controller1.Screen.print("HELLO!");
+ //Controller1.Screen.print(leftDriveTeleOp);
       //connects the joysticks with the drive
       leftDrive.spin(vex::directionType::fwd, leftDriveTeleOp, vex::velocityUnits::rpm);
       rightDrive.spin(vex::directionType::fwd, RightDriveTeleOp, vex::velocityUnits::rpm);
