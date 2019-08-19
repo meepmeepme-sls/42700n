@@ -122,24 +122,10 @@ void autonomous( void ) {
   vex::task::sleep(3000);
   intake(0);
   vex::task::sleep(500);
-  drive(20,20,200);
-  drive(-20,-20,200);
-  drive(200,200,130);
-  vex::task::sleep(500);
-  drive(650,650,130);
-  lift(300);
-  drive(170,170,120);
-  vex::task::sleep(1000);
-  intake(0);
-  lift(225);
-  vex::task::sleep(650);
-  lift(150);
-  vex::task::sleep(650);
-  lift(75);
-  vex::task::sleep(650);
+  lift(100);
   lift(0);
-  vex::task::sleep(350);
-  drive(300,-300,120);
+  drive(700,700,100);
+  drive(-300,-300,200);
 }
 
 void usercontrol( void ) {

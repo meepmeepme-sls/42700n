@@ -122,24 +122,8 @@ void autonomous( void ) {
   vex::task::sleep(3000);
   intake(0);
   vex::task::sleep(500);
-  drive(20,20,200);
-  drive(-20,-20,200);
-  drive(200,200,130);
-  vex::task::sleep(500);
-  drive(650,650,130);
-  lift(300);
-  drive(170,170,120);
-  vex::task::sleep(1000);
-  intake(0);
-  lift(225);
-  vex::task::sleep(650);
-  lift(150);
-  vex::task::sleep(650);
-  lift(75);
-  vex::task::sleep(650);
+  lift(100);
   lift(0);
-  vex::task::sleep(350);
-  drive(300,-300,120);
 }
 
 void usercontrol( void ) {
@@ -149,10 +133,11 @@ void usercontrol( void ) {
     int rightDriveSpeed = (( Controller1.Axis3.value() )+Controller1.Axis1.value());
     int strafingSpeed = (1*Controller1.Axis4.value());
 
+    if(Controller1.ButtonB.pressing()==0){
     leftDrive.spin(vex::directionType::fwd,leftDriveSpeed,vex::velocityUnits::pct);
     rightDrive.spin(vex::directionType::fwd,rightDriveSpeed,vex::velocityUnits::pct);
     strafingDrive.spin(vex::directionType::fwd,strafingSpeed,vex::velocityUnits::pct);
-    //End of drive.
+   } //End of drive.
     int medliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/320 ));
     int highliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/350 ));
     int topliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/660 ));
@@ -204,8 +189,13 @@ int tilterSpeed = 20+100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/820))
       intakeRight.stop(vex::brakeType::brake);
     }
     if(Controller1.ButtonB.pressing()){
-      tilterMotor.rotateTo(0,vex::rotationUnits::deg,100,vex::velocityUnits::rpm);
+      intakeLeft.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
+      intakeRight.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
+    leftDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
+    rightDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
+      
     }
+
   }
 }int main() {
     Competition.autonomous( autonomous );
