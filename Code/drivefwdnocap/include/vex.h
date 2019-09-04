@@ -17,11 +17,11 @@
 #include "v5_vcs.h"
 vex::controller Controller1;
 
-vex::motor leftDrive(vex::PORT1,vex::gearSetting::ratio18_1,true);
-vex::motor rightDrive(vex::PORT5,vex::gearSetting::ratio18_1,false);
-vex::motor liftLeft(vex::PORT11,vex::gearSetting::ratio36_1,true);
-vex::motor liftRight(vex::PORT18,vex::gearSetting::ratio36_1,false);
-vex::motor intakeLeft(vex::PORT14,vex::gearSetting::ratio18_1,true);
-vex::motor intakeRight(vex::PORT19,vex::gearSetting::ratio18_1,false);
-vex::motor strafingDrive(vex::PORT6,vex::gearSetting::ratio18_1,false);
-vex::motor tilterMotor(vex::PORT13,vex::gearSetting::ratio36_1,true);
+vex::motor leftDrive(vex::PORT15,vex::gearSetting::ratio18_1,true);
+vex::motor rightDrive(vex::PORT11,vex::gearSetting::ratio18_1,false);
+vex::motor liftLeft(vex::PORT3,vex::gearSetting::ratio36_1,true);
+vex::motor liftRight(vex::PORT8,vex::gearSetting::ratio36_1,false);
+vex::motor intakeLeft(vex::PORT9,vex::gearSetting::ratio18_1,true);
+vex::motor intakeRight(vex::PORT1,vex::gearSetting::ratio18_1,false);
+vex::motor strafingDrive(vex::PORT13,vex::gearSetting::ratio18_1,false);
+vex::motor tilterMotor(vex::PORT10,vex::gearSetting::ratio36_1,false);
