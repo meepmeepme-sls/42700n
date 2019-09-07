@@ -15,8 +15,11 @@
 
 #include "v5.h"
 #include "v5_vcs.h"
+
+//defines a controller named "Controller1"
 vex::controller Controller1;
 
+//defines the motor name(port#,gear ratio, reversed setting);
 vex::motor leftDrive(vex::PORT15,vex::gearSetting::ratio18_1,true);
 vex::motor rightDrive(vex::PORT11,vex::gearSetting::ratio18_1,false);
 vex::motor liftLeft(vex::PORT3,vex::gearSetting::ratio36_1,true);
