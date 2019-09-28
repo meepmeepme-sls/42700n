@@ -1,4 +1,3 @@
-
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       vex.h                                                     */
@@ -17,17 +16,20 @@
 #include "v5_vcs.h"
 
 //defines a controller named "Controller1"
+using namespace vex;
+vex::brain Brain; 
+
 vex::controller Controller1;
-vex::brain       Brain;
 
 //defines the motor name(port#,gear ratio, reversed setting);
-vex::motor leftDrive(vex::PORT15,vex::gearSetting::ratio18_1,true);
-vex::motor rightDrive(vex::PORT11,vex::gearSetting::ratio18_1,false);
-vex::motor liftLeft(vex::PORT3,vex::gearSetting::ratio36_1,true);
-vex::motor liftRight(vex::PORT8,vex::gearSetting::ratio36_1,false);
-vex::motor intakeLeft(vex::PORT9,vex::gearSetting::ratio18_1,true);
-vex::motor intakeRight(vex::PORT1,vex::gearSetting::ratio18_1,false);
-vex::motor strafingDrive(vex::PORT13,vex::gearSetting::ratio18_1,false);
-vex::motor tilterMotor(vex::PORT10,vex::gearSetting::ratio36_1,false);
+vex::motor leftFrontDrive(vex::PORT1,vex::gearSetting::ratio18_1,false);
+vex::motor rightFrontDrive(vex::PORT3,vex::gearSetting::ratio18_1,true);
+vex::motor leftBackDrive(vex::PORT2,vex::gearSetting::ratio18_1,false);
+vex::motor rightBackDrive(vex::PORT4,vex::gearSetting::ratio18_1,true);
+vex::motor liftLeft(vex::PORT5,vex::gearSetting::ratio36_1,true);
+vex::motor liftRight(vex::PORT6,vex::gearSetting::ratio36_1,false);
+vex::motor intakeLeft(vex::PORT13,vex::gearSetting::ratio18_1,false);
+vex::motor intakeRight(vex::PORT11,vex::gearSetting::ratio18_1,true);
 
-vex::pot autonomousSelector(Brain.ThreeWirePort.H);
+vex::pot potentiometerControl(Brain.ThreeWirePort.E);
+vex::pot liftPotentiometer(Brain.ThreeWirePort.B);
