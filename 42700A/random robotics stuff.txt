@@ -1,0 +1,100 @@
+//start auto aline for cube
+    //sences for if the cube is 15cm away from vision senser
+    //if((Sonar.distance(vex::distanceUnits::cm)>15)){
+        //vision aliment loop
+        while(2 == true){
+        //takes a picture looking for SIG_2
+        Vision.takeSnapshot(SIG_2);
+        //did we see SIG_!?
+        if(Vision.objectCount > 0) {
+            //where was the center of largest thing that is the same coler as SIG_2?
+            //checks for center being left
+            if(Vision.largestObject.centerX < 105) {
+                //strafe left
+                Brain.Screen.setCursor(1,1);
+                Brain.Screen.print("Sonar Distance is %f CM ",Sonar.distance(vex::distanceUnits::cm));
+                Brain.Screen.setCursor(2,1);
+                Brain.Screen.print("Left                       .");
+                //shuld find a way to bost speed
+                LF.setVelocity(50,vex::velocityUnits::pct);
+                RF.setVelocity(50,vex::velocityUnits::pct);
+                LB.setVelocity(-50,vex::velocityUnits::pct);
+                RB.setVelocity(-50,vex::velocityUnits::pct);
+                LB.spin(vex::directionType::fwd);
+                LF.spin(vex::directionType::fwd);
+                RB.spin(vex::directionType::fwd);
+                RF.spin(vex::directionType::fwd);
+                Vision.takeSnapshot(SIG_2);
+            } 
+            //checks for center being right
+            else if (Vision.largestObject.centerX > 210) {
+                //strafe right
+                Brain.Screen.setCursor(1,1);
+                Brain.Screen.print("Sonar Distance is %f CM ",Sonar.distance(vex::distanceUnits::cm));
+                Brain.Screen.setCursor(2,1);
+                Brain.Screen.print("Right                      .");
+                //shuld find a way to bost speed
+                LF.setVelocity(-30,vex::velocityUnits::pct);
+                RF.setVelocity(-30,vex::velocityUnits::pct);
+                LB.setVelocity(30,vex::velocityUnits::pct);
+                RB.setVelocity(30,vex::velocityUnits::pct);
+                LB.spin(vex::directionType::fwd);
+                LF.spin(vex::directionType::fwd);
+                RB.spin(vex::directionType::fwd);
+                RF.spin(vex::directionType::fwd);
+                Vision.takeSnapshot(SIG_2);
+            } 
+            //checks for center being center
+            else if (Vision.largestObject.centerX < 210 && Vision.largestObject.centerX > 105) {
+                //go fword
+                Brain.Screen.setCursor(1,1);
+                Brain.Screen.print("Sonar Distance is %f CM ",Sonar.distance(vex::distanceUnits::cm));
+                Brain.Screen.setCursor(2,1);
+                Brain.Screen.print("Fwd                        .");
+                //shuld find a way to bost speed
+                LF.setVelocity(30,vex::velocityUnits::pct);
+                RF.setVelocity(-30,vex::velocityUnits::pct);
+                LB.setVelocity(30,vex::velocityUnits::pct);
+                RB.setVelocity(-30,vex::velocityUnits::pct);
+                LB.spin(vex::directionType::fwd);
+                LF.spin(vex::directionType::fwd);
+                RB.spin(vex::directionType::fwd);
+                RF.spin(vex::directionType::fwd);
+                Vision.takeSnapshot(SIG_2);
+            }
+        }
+        /*else{
+            //do nothing
+            Brain.Screen.setCursor(1,1);
+            Brain.Screen.print("Sonar Distance is %f CM ",Sonar.distance(vex::distanceUnits::cm));
+            Brain.Screen.setCursor(2,1);
+            Brain.Screen.print("None                       .");
+            LF.stop(brakeType::brake);
+            RF.stop(brakeType::brake);
+            LB.stop(brakeType::brake);
+            RB.stop(brakeType::brake);/*
+            //2 == false;
+        }
+        /*else{
+        //sets loop to false, stops the loop
+        2 == false;
+        Brain.Screen.setCursor(1,1);
+        Brain.Screen.print("Sonar Distance is %f CM ",Sonar.distance(vex::distanceUnits::cm));
+        LB.stop();
+        LF.stop();
+        RB.stop();
+        RF.stop();
+        }*/
+        }
+        //just for testing if the code will stop the loop and go on with other commands
+        //dx(-150,5);
+    vex::task::sleep(150000);
+    }
+    }
+    /*else{
+            LF.stop(brakeType::brake);
+            RF.stop(brakeType::brake);
+            LB.stop(brakeType::brake);
+            RB.stop(brakeType::brake);
+            2 == false;
+    }*/

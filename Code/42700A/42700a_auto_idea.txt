@@ -1,0 +1,42 @@
+42700a auto plans (blue)
+1--------------------------------
+move fowrd
+aline with green cube
+place gerrn cube in post
+backup
+rotate 90deg left
+move fowrd
+strafe right
+move fowrd and aline with cube
+get the stack
+backup
+rotate 90deg left
+move fowrd
+rotate 90deg left
+move fowrd place cube in scoring zone backup
+4pts
+2------------------------------------
+move fowrd
+rotate 90deg right
+move fowrd
+place purple cube in goal post
+0pts, will raze purple cube valus across the the whole field
+3-------------------------------------
+move fword
+place green cube in goal post
+backup
+rotate 90deg left
+move fword
+pick up green cube
+move fowrd
+rotate 90deg left
+move fowrd
+place cube in scoring zone
+3pt auto
+------------------------------------------
+0-16
+17-33
+34-50
+51-67
+68-84
+85-100
