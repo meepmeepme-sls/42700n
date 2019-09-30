@@ -22,6 +22,7 @@ int turnn;
 int gyrtm;
 int pot2VaL;
 int ToggleState;
+int Potautohight;
 //move forward with sonar
 void sf(int spower,int DistanceToObject){
   loop=1;
@@ -81,7 +82,7 @@ void intake(int inpower){
 	CR.spin(vex::directionType::fwd, inpower, vex::velocityUnits::pct);
 }
 //vision auto aliment
-void AutoAlign( int dts, int aspeed, int sig){
+void AutoAlign( int dts, int aspeed){
 	//sets speed
 	LF.setVelocity(aspeed,vex::velocityUnits::pct);
 	RF.setVelocity(aspeed,vex::velocityUnits::pct);

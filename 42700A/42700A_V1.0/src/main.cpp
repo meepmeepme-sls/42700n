@@ -5,7 +5,7 @@ void pre_auton( void ) {
 	//resets all varibles befor comp
 	loop = 0;
 	cl = 0;
-  autoselect = true;
+	autoselect = true;
 	//Autonomous select using the potentiomiter|feed back goes to brain
 	while(autoselect == true){
 		Brain.Screen.setCursor(2, 20);
@@ -43,7 +43,8 @@ void autonomous( void ) {
 	//red 1-----------------------------------------------------
 	if(pot1.value(pct) >= 16 && pot1.value(pct) <=0){
 		Controller1.Screen.print("red 1 running");
-    dx(100, -375);
+		dx(100, -375);
+		dx(100, 100);
 		Controller1.Screen.print("red 1 done");
 	}
 	//red 2---------------------------------------
@@ -54,26 +55,26 @@ void autonomous( void ) {
 	//red 3--------------------------------------
 	else if(pot1.value(pct) >= 34 && pot1.value(pct) <=50){
 		Controller1.Screen.print("red 3 running");
-    //for deploying the intake
-    arm(100, 500,true);
-    arm(100, 500,true);
-    //start the intke in
+		//for deploying the intake
+		arm(100, 500,true);
+		arm(100, 500,true);
+		//start the intke in
 		intake(200);
-    //go foward with sleep at the end to stop
+		//go foward with sleep at the end to stop
 		dx(50, 650);
 		sleep(50);
-    //go backward and stop intake
+		//go backward and stop intake
 		dx(100, -600);
 		intake(0);
-    //trun right
+		//trun right
 		dy(50, 450);
 		sleep(10);
-    //strafe left
+		//strafe left
 		dz(50, 200);
 		sleep(10);
-    //go foward
+		//go foward
 		dx(50, 200);
-    //place cubs in scoring zone
+		//place cubs in scoring zone
 		intake(-200);
 		sleep(1000);
 		dx(50,-200);
@@ -84,20 +85,50 @@ void autonomous( void ) {
 	//blue 1---------------------------------------
 	else if(pot1.value(pct) >= 51 && pot1.value(pct) <=67){
 		Controller1.Screen.print("Blue 1 running");
-    dx(100, -375);
+		dx(100, -375);
+		dx(100, 100);
 		Controller1.Screen.print("Blue 1 stop");
 	}
 	//blue 2----------------------------------------
 	else if(pot1.value(pct) >= 68 && pot1.value(pct) <=84){
-		Controller1.Screen.print("Blue 2 running");
-
-		Controller1.Screen.print("Blue 2 stop");
+		Controller1.Screen.print("autoskill running");
+    //right 38.9in
+    dz(75, -401);
+    sleep(20);
+    //foward 14.9 in
+    dx(75, 206);
+    sleep(20);
+    //lft 38.9in
+    dz(75, 401);
+    sleep(20);
+    dx(100, -375);
+    sleep(20);
+		dx(100, 500);
+    sleep(20);
+    arm(100, 500,true);
+    arm(100, -500,true);
+		//right 20in
+    dz(75, -277);
+    sleep(20);
+    loop=1;
+    while(loop==1){
+      Vision.takeSnapshot(Purple);
+      AutoAlign(20, 50);
+    }
+    intake(100);
+    arm(100, 680, true);
+    sleep(20);
+    intake(-100);
+    arm(100, -680, false);
+    sleep(20);
+    dx(50, -200);
+    Controller1.Screen.print("autoskill stop");
 	}
 	//blue 3----------------------------------------
 	else if(pot1.value(pct) >= 85 && pot1.value(pct) <=100){
 		Controller1.Screen.print("Blue 3 running");
-    arm(100, 500,true);
-    arm(100, 500,true);
+		arm(100, 500,true);
+		arm(100, 500,true);
 		intake(200);
 		dx(50, 650);
 		sleep(50);
@@ -119,16 +150,17 @@ void autonomous( void ) {
 User controle------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------------*/  
 void usercontrol ( void ) {
-  //resets and enables/disables things for driver controle
-  OH=false;
-  autoselect = true;
-	temp = true; 
-  vex::thread TS(ToggleButton); 
+	//resets and enables/disables things for driver controle
+	OH=false;
+	autoselect = true;
+	temp = true;
+  Potautohight=false; 
+	vex::thread TS(ToggleButton);
 	//optinal menu
 	debug = true;
 	//clears brain screen befor driver use
 	Brain.Screen.clearScreen();
-  Controller1.Screen.clearLine(3);
+	Controller1.Screen.clearLine(3);
 
 	while (true) {
 		//top 2 rows debug
@@ -140,25 +172,25 @@ void usercontrol ( void ) {
 			//Brain.Screen.print("%d", line1.value( analogUnits::range12bit ));
 			//Brain.Screen.print("%d", Vision.largestObject.width);
 			//Brain.Screen.print("%t", AR.rotation(deg));
-      Brain.Screen.print ("%f",pot2.value(vex::rotationUnits::deg));
-      Brain.Screen.setCursor(1,20);
-      Brain.Screen.print ("%f",AL.rotation(vex::rotationUnits::deg));
+			Brain.Screen.print ("%f",pot2.value(vex::rotationUnits::deg));
+			Brain.Screen.setCursor(1,20);
+			Brain.Screen.print ("%f",AL.rotation(vex::rotationUnits::deg));
 
 			//controler debuging output | comment out what isent needed
 			//Controller1.Screen.print (" %f CM ",Sonar.distance(vex::distanceUnits::cm));
 			//Controller1.Screen.print ("%f", AR.rotation(vex::rotationUnits::deg));
 			//Controller1.Screen.print ("%d", line1.value( analogUnits::pct ));
 			//Controller1.Screen.print("%d", Vision.largestObject.width);
-      //Controller1.Screen.print ("%f",pot2.value(vex::rotationUnits::deg));
+			//Controller1.Screen.print ("%f",pot2.value(vex::rotationUnits::deg));
 			//Controller1.Screen.print(".                             .");
 		}
 		//motor temp feed back_________________________________________________________________________
 		if (temp==true){
 			if(LF.temperature(pct)>70){
 				Brain.Screen.setCursor(4, 1);
-        OH=true;
+				OH=true;
 				Brain.Screen.print("LF temp");
-        Controller1.Screen.print("LF temp");
+				Controller1.Screen.print("LF temp");
 			}
 			else if(LF.temperature(pct)>50&&LF.temperature(pct)<70){
 				Brain.Screen.setCursor(4, 1);
@@ -166,9 +198,9 @@ void usercontrol ( void ) {
 			}
 			if(LB.temperature(pct)>70){
 				Brain.Screen.setCursor(4, 10);
-        OH=true;
+				OH=true;
 				Brain.Screen.print("LB temp");
-        Controller1.Screen.print("LB temp");
+				Controller1.Screen.print("LB temp");
 			}
 			else if(LB.temperature(pct)>50&&LF.temperature(pct)<70){
 				Brain.Screen.setCursor(4, 10);
@@ -176,9 +208,9 @@ void usercontrol ( void ) {
 			}
 			if(RF.temperature(pct)>70){
 				Brain.Screen.setCursor(4, 20);
-        OH=true;
+				OH=true;
 				Brain.Screen.print("RF temp");
-        Controller1.Screen.print("RF temp");
+				Controller1.Screen.print("RF temp");
 			}
 			else if(RF.temperature(pct)>50&&RF.temperature(pct)<70){
 				Brain.Screen.setCursor(4, 20);
@@ -186,9 +218,9 @@ void usercontrol ( void ) {
 			}
 			if(RB.temperature(pct)>70){
 				Brain.Screen.setCursor(4, 30);
-        OH=true;
+				OH=true;
 				Brain.Screen.print("RB temp");
-        Controller1.Screen.print("RB temp");
+				Controller1.Screen.print("RB temp");
 			}
 			else if(RB.temperature(pct)>50&&RB.temperature(pct)<70){
 				Brain.Screen.setCursor(4, 300);
@@ -196,44 +228,48 @@ void usercontrol ( void ) {
 			}
 			if(AR.temperature(pct)>70){
 				Brain.Screen.setCursor(3, 1);
-        OH=true;
+				OH=true;
 				Brain.Screen.print("AR temp");
-        Controller1.Screen.print("AR temp");
+				Controller1.Screen.print("AR temp");
 			}
 			else if(AR.temperature(pct)>50&&AR.temperature(pct)<70){
 				Brain.Screen.setCursor(3, 1);
 				Brain.Screen.print("AR warm");
+				OH=true;
+				Controller1.Screen.print("AR warm");
 			}
 			if(AL.temperature(pct)>70){
 				Brain.Screen.setCursor(3, 10);
-        OH=true;
+				OH=true;
 				Brain.Screen.print("AL temp");
-        Controller1.Screen.print("AL temp");
+				Controller1.Screen.print("AL temp");
 			}
 			else if(AL.temperature(pct)>50&&AL.temperature(pct)<70){
 				Brain.Screen.setCursor(3, 10);
 				Brain.Screen.print("AL warm");
+				OH=true;
+				Controller1.Screen.print("AL warm");
 			}
 			if(CL.temperature(pct)>70){
 				Brain.Screen.setCursor(3, 20);
-        OH=true;
+				OH=true;
 				Brain.Screen.print("CL temp");
-        Controller1.Screen.print("CL temp");
+				Controller1.Screen.print("CL temp");
 			}
 			else if(CL.temperature(pct)>50&&CL.temperature(pct)<70){
 				Brain.Screen.setCursor(3, 20);
 				Brain.Screen.print("CL warm");
-      }
+			}
 			if(CR.temperature(pct)>70){
 				Brain.Screen.setCursor(3, 25);
-        OH=true;
+				OH=true;
 				Brain.Screen.print("CR temp");
-        Controller1.Screen.print("CR temp");
+				Controller1.Screen.print("CR temp");
 			}
 			else if(CR.temperature(pct)>50&&CR.temperature(pct)<70){
 				Brain.Screen.setCursor(3, 25);
 				Brain.Screen.print("CR warm");
-      }
+			}
 		}
 		//Dubble reverse 4 bar__________________________________________________________________________
 		if(Controller1.ButtonR1.pressing()) {
@@ -244,31 +280,53 @@ void usercontrol ( void ) {
 			AR.spin(vex::directionType::rev, 95, vex::velocityUnits::pct);
 			AL.spin(vex::directionType::fwd, 95, vex::velocityUnits::pct);
 		}
-		//preset hights low tower
-		else if(Controller1.ButtonB.pressing()){
-			AR.rotateTo(540, deg,100,velocityUnits::pct,false);
-			AL.rotateTo(-540, deg,100,velocityUnits::pct,false);
-		}
-		//preset hights mid tower
-		else if (Controller1.ButtonX.pressing()){
-			AR.rotateTo(1080, deg,100,velocityUnits::pct,false);
-			AL.rotateTo(-1080, deg,100,velocityUnits::pct,false);
-		}
-		//preset hights high tower
-		else if (Controller1.ButtonA.pressing()) {
-			AR.rotateTo(680, deg,100,velocityUnits::pct,false);
-			AL.rotateTo(-680, deg,100,velocityUnits::pct,false);
+		else if(Potautohight==false){
+			//preset hights low tower
+			if(Controller1.ButtonB.pressing()){
+				AR.rotateTo(540, deg,100,velocityUnits::pct,false);
+				AL.rotateTo(-540, deg,100,velocityUnits::pct,false);
+			}
+			//preset hights mid tower
+			else if (Controller1.ButtonX.pressing()){
+				AR.rotateTo(1080, deg,100,velocityUnits::pct,false);
+				AL.rotateTo(-1080, deg,100,velocityUnits::pct,false);
+			}
+			//preset hights high tower
+			else if (Controller1.ButtonA.pressing()) {
+				AR.rotateTo(680, deg,100,velocityUnits::pct,false);
+				AL.rotateTo(-680, deg,100,velocityUnits::pct,false);
+			}
+    }
+		else if (Potautohight==true){
+			//preset hights low tower
+			if(Controller1.ButtonB.pressing()){
+				GivetoM=(108-pot2.value(deg))*5 + AR.rotation(deg);
+				AR.rotateTo(GivetoM, deg,100,velocityUnits::pct,false);
+				AL.rotateTo(-GivetoM, deg,100,velocityUnits::pct,false);
+			}
+			//preset hights mid tower
+			else if (Controller1.ButtonX.pressing()){
+				GivetoM=(216-pot2.value(deg))*5 + AR.rotation(deg);
+				AR.rotateTo(GivetoM, deg,100,velocityUnits::pct,false);
+				AL.rotateTo(-GivetoM, deg,100,velocityUnits::pct,false);
+			}
+			//preset hights high tower
+			else if (Controller1.ButtonA.pressing()) {
+				GivetoM=(136-pot2.value(deg))*5 + AR.rotation(deg);
+				AR.rotateTo(GivetoM, deg,100,velocityUnits::pct,false);
+				AL.rotateTo(-GivetoM, deg,100,velocityUnits::pct,false);
+			}
 		}
 		//stop
 		else {
-			AR.stop(vex::brakeType::brake);
-			AL.stop(vex::brakeType::brake);
+			AR.stop(vex::brakeType::hold);
+			AL.stop(vex::brakeType::hold);
 		}
-    //arm moter encoder reset
-    if(Controller1.ButtonRight.pressing()){
-      AR.resetRotation();
-      AL.resetRotation();
-    }
+		//arm moter encoder reset
+		if(Controller1.ButtonRight.pressing()){
+			AR.resetRotation();
+			AL.resetRotation();
+		}
 		//intake________________________________________________________________________________________
 		//in
 		if(Controller1.ButtonL1.pressing()) {
@@ -285,7 +343,7 @@ void usercontrol ( void ) {
 			CL.stop(vex::brakeType::brake);
 			CR.stop(vex::brakeType::brake);
 		}
-    Brain.Screen.setCursor(2,1);
+		Brain.Screen.setCursor(2,1);
 		//drive and AutoAlign___________________________________________________________________________
 		//Autoalign orange
 		if(Controller1.ButtonUp.pressing()){
@@ -422,44 +480,44 @@ void usercontrol ( void ) {
 				}
 			}
 		}
-    //tank drive mode|Y button is the toggle
-    else if(ToggleState==true){
-      if(OH==false){
-        Controller1.Screen.print ("Tank Drive                           .");
-      }
-      Brain.Screen.setCursor(2, 0);
-      Brain.Screen.print ("Tank Drive ");
-      LF.spin(vex::directionType::fwd, Controller1.Axis3.value() + Controller1.Axis4.value(),vex::velocityUnits::pct);
+		//tank drive mode|Y button is the toggle
+		else if(ToggleState==true){
+			if(OH==false){
+				Controller1.Screen.print ("Tank Drive                           .");
+			}
+			Brain.Screen.setCursor(2, 0);
+			Brain.Screen.print ("Tank Drive ");
+			LF.spin(vex::directionType::fwd, Controller1.Axis3.value() + Controller1.Axis4.value(),vex::velocityUnits::pct);
 			LB.spin(vex::directionType::fwd, Controller1.Axis3.value() - Controller1.Axis4.value(),vex::velocityUnits::pct);
 			RF.spin(vex::directionType::fwd, -Controller1.Axis2.value() + Controller1.Axis1.value(),vex::velocityUnits::pct);
 			RB.spin(vex::directionType::fwd, -Controller1.Axis2.value() - Controller1.Axis1.value(),vex::velocityUnits::pct);
-      
-    }
-    //arcade drive mode|Y button is the toggle
+
+		}
+		//arcade drive mode|Y button is the toggle
 		else if(ToggleState==false){
-      if(OH==false){
-        Controller1.Screen.print ("Arcade Drive  ");
-      }
-      Brain.Screen.setCursor(2, 0);
-      Brain.Screen.print ("Arcade Drive  ");
+			if(OH==false){
+				Controller1.Screen.print ("Arcade Drive  ");
+			}
+			Brain.Screen.setCursor(2, 0);
+			Brain.Screen.print ("Arcade Drive  ");
 			LF.spin(vex::directionType::fwd, Controller1.Axis3.value() + Controller1.Axis4.value() + Controller1.Axis1.value(),vex::velocityUnits::pct);
 			RF.spin(vex::directionType::fwd, -Controller1.Axis3.value() + Controller1.Axis4.value() + Controller1.Axis1.value(),vex::velocityUnits::pct);
 			RB.spin(vex::directionType::fwd, -Controller1.Axis3.value() - Controller1.Axis4.value() + Controller1.Axis1.value(),vex::velocityUnits::pct);
 			LB.spin(vex::directionType::fwd, Controller1.Axis3.value() - Controller1.Axis4.value() + Controller1.Axis1.value(),vex::velocityUnits::pct);
 		}
-    //for power saving
+		//for power saving
 		sleep(20);
 	}
 }
 /*
  __________    _________       ______       _____      _____         __     __     _________     __________     ___________     ___________       ______
 |____   ___|  |   ______|     /   _  \     |     \    /     |       |  |   |  |   |_______  |   |_______   |   /   _____   \   /   _____   \     /   _  \
-    |  |      |  |______     /   / \  \    |  |\  \  /  /|  |       |  |   |  |          |  |          /  /    |  |     |  |   |  |     |  |    /   / \  \
-    |  |      |   ______|   /   /___\  \   |  | \  \/  / |  |       |  |___|  |    ______|  |         /  /     |  |     |  |   |  |     |  |   /   /___\  \
-    |  |      |  |          |   ____   |   |  |  \    /  |  |       |______   |   |  _______|        /  /      |  |     |  |   |  |     |  |   |   ____   |
-    |  |      |  |______    |  |    |  |   |  |   \  /   |  |              |  |   |  |______        /  /       |  |_____|  |   |  |     |  |   |  |    |  |
-    |__|      |_________|   |__|    |__|   |__|    \/    |__|              |__|   |_________|      /__/        \___________/   \___________/   |__|    |__|
-やきとり, chicken;;*/
+		|  |      |  |______     /   / \  \    |  |\  \  /  /|  |       |  |   |  |          |  |          /  /    |  |     |  |   |  |     |  |    /   / \  \
+		|  |      |   ______|   /   /___\  \   |  | \  \/  / |  |       |  |___|  |    ______|  |         /  /     |  |     |  |   |  |     |  |   /   /___\  \
+		|  |      |  |          |   ____   |   |  |  \    /  |  |       |______   |   |  _______|        /  /      |  |     |  |   |  |     |  |   |   ____   |
+		|  |      |  |______    |  |    |  |   |  |   \  /   |  |              |  |   |  |______        /  /       |  |_____|  |   |  |     |  |   |  |    |  |
+		|__|      |_________|   |__|    |__|   |__|    \/    |__|              |__|   |_________|      /__/        \___________/   \___________/   |__|    |__|
+やきとり chicken;;*/
 //evrything under this point dont worry about it|it's nessasary for the compition
 int main() {
 	pre_auton();
