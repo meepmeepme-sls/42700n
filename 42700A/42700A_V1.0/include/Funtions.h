@@ -22,6 +22,7 @@ int turnn;
 int gyrtm;
 int pot2VaL;
 int ToggleState;
+int GivetoM;
 int Potautohight;
 //move forward with sonar
 void sf(int spower,int DistanceToObject){
