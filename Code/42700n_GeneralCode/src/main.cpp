@@ -78,8 +78,12 @@ if(Controller1.ButtonB.pressing()==0){
       liftRight.stop(vex::brakeType::hold);
     }
 int tilterSpeed = 20+100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/720));
-    if(Controller1.ButtonX.pressing()){
+    if(Controller1.ButtonX.pressing()&&(tilterMotor.rotation(vex::rotationUnits::deg)<740)){
       tilterMotor.spin(vex::directionType::fwd,tilterSpeed,vex::velocityUnits::rpm);
+      if(tilterMotor.rotation(vex::rotationUnits::deg)>700){
+        intakeLeft.spin(vex::directionType::rev,15,vex::velocityUnits::rpm);
+        intakeRight.spin(vex::directionType::rev,15,vex::velocityUnits::rpm);
+      }
     }else
     if(Controller1.ButtonY.pressing()&&tilterMotor.rotation(vex::rotationUnits::deg)>0){
       tilterMotor.spin(vex::directionType::rev,100,vex::velocityUnits::rpm);
