@@ -51,13 +51,13 @@ if(Controller1.ButtonB.pressing()==0){
     int topliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/660 ));
     int downliftSpeed = 15+ 100*(((liftLeft.rotation(vex::rotationUnits::deg))/2 ));
 
-    if(Controller1.ButtonLeft.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)<320){
+    if(Controller1.ButtonLeft.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)){
       liftLeft.spin(vex::directionType::fwd,medliftSpeed,vex::velocityUnits::rpm);
       liftRight.spin(vex::directionType::fwd,medliftSpeed,vex::velocityUnits::rpm);
-    }if(Controller1.ButtonUp.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)<350){
+    }if(Controller1.ButtonUp.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)){
       liftLeft.spin(vex::directionType::fwd,highliftSpeed,vex::velocityUnits::rpm);
       liftRight.spin(vex::directionType::fwd,highliftSpeed,vex::velocityUnits::rpm);
-    }if(Controller1.ButtonRight.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)<660){
+    }if(Controller1.ButtonRight.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)){
       liftLeft.spin(vex::directionType::fwd,topliftSpeed,vex::velocityUnits::rpm);
       liftRight.spin(vex::directionType::fwd,topliftSpeed,vex::velocityUnits::rpm);
     }if(Controller1.ButtonDown.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)>0){
