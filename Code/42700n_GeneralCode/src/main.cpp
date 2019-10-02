@@ -34,6 +34,7 @@ void autonomous( void ) {
 void usercontrol( void ) {
   
     int shifter = 0;
+    int targetHeight = 0;
   while (1) {
     //Drive part. Axis1 is the left to right on the left stick. Axis3 is up and down on the left stick. Axis 4 is right and left on the right stick.
     int leftDriveSpeed = ((Controller1.Axis3.value()) + -1*Controller1.Axis1.value());// just some arcade coding. 
@@ -46,14 +47,15 @@ if(Controller1.ButtonB.pressing()==0){
     rightDrive.spin(vex::directionType::fwd,rightDriveSpeed,vex::velocityUnits::pct);
     strafingDrive.spin(vex::directionType::fwd,strafingSpeed,vex::velocityUnits::pct);
    }   //End of drive.
-    int medliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/320 ));
+   /* int medliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/320 ));*/
     int highliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/350 ));
     int topliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/660 ));
     int downliftSpeed = 15+ 100*(((liftLeft.rotation(vex::rotationUnits::deg))/2 ));
-
+    int liftSpeed = 15+100*(1-(((liftLeft.rotation(vex::rotationUnits::deg)+liftRight.rotation(vex::rotationUnits::deg))/2 )/targetHeight));
     if(Controller1.ButtonLeft.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)){
-      liftLeft.spin(vex::directionType::fwd,medliftSpeed,vex::velocityUnits::rpm);
-      liftRight.spin(vex::directionType::fwd,medliftSpeed,vex::velocityUnits::rpm);
+      targetHeight = 320;
+      liftLeft.spin(vex::directionType::fwd,liftSpeed,vex::velocityUnits::rpm);
+      liftRight.spin(vex::directionType::fwd,liftSpeed,vex::velocityUnits::rpm);
     }if(Controller1.ButtonUp.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)){
       liftLeft.spin(vex::directionType::fwd,highliftSpeed,vex::velocityUnits::rpm);
       liftRight.spin(vex::directionType::fwd,highliftSpeed,vex::velocityUnits::rpm);
