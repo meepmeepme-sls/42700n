@@ -1,4 +1,4 @@
-#include "functions.h "
+#include "autonomous.h"
 using namespace vex;
 vex::competition Competition;
 //start of user generated code.
@@ -15,20 +15,7 @@ void pre_auton( void ) {//Clears all motor encoders upon start of user program.
 }
 //this stuff runs in the first 15 seconds of the competition. 
 void autonomous( void ) {
-    //sets motor to move in a direction at a set velocity. Doesn't say anything else.
-    leftDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
-    rightDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
-    vex::task::sleep(1000);
-    //reverses the spinning after 1 second
-    leftDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
-    rightDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
-    vex::task::sleep(500);
-    //stops both motors after 1/2 a second delay of driving fwd.
-    leftDrive.stop();
-    rightDrive.stop();
-    drive(0,300,200);
-    intakeLeft.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
-    intakeRight.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
+  driveBackAutonomous();
 }
 //this runs for the rest of the match (1:45)
 void usercontrol( void ) {
