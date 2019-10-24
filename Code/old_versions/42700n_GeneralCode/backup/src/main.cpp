@@ -1,4 +1,4 @@
-#include "functions.h "
+#include "autonomous.h"
 using namespace vex;
 vex::competition Competition;
 //start of user generated code.
@@ -15,25 +15,13 @@ void pre_auton( void ) {//Clears all motor encoders upon start of user program.
 }
 //this stuff runs in the first 15 seconds of the competition. 
 void autonomous( void ) {
-    //sets motor to move in a direction at a set velocity. Doesn't say anything else.
-    leftDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
-    rightDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
-    vex::task::sleep(1000);
-    //reverses the spinning after 1 second
-    leftDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
-    rightDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
-    vex::task::sleep(500);
-    //stops both motors after 1/2 a second delay of driving fwd.
-    leftDrive.stop();
-    rightDrive.stop();
-    drive(0,300,200);
-    intakeLeft.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
-    intakeRight.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
+  driveBackAutonomous();
 }
 //this runs for the rest of the match (1:45)
 void usercontrol( void ) {
   
     int shifter = 0;
+    int targetHeight = 0;
   while (1) {
     //Drive part. Axis1 is the left to right on the left stick. Axis3 is up and down on the left stick. Axis 4 is right and left on the right stick.
     int leftDriveSpeed = ((Controller1.Axis3.value()) + -1*Controller1.Axis1.value());// just some arcade coding. 
@@ -46,18 +34,19 @@ if(Controller1.ButtonB.pressing()==0){
     rightDrive.spin(vex::directionType::fwd,rightDriveSpeed,vex::velocityUnits::pct);
     strafingDrive.spin(vex::directionType::fwd,strafingSpeed,vex::velocityUnits::pct);
    }   //End of drive.
-    int medliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/320 ));
+   /* int medliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/320 ));*/
     int highliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/350 ));
     int topliftSpeed = 15+ 100*(1-((liftLeft.rotation(vex::rotationUnits::deg))/660 ));
     int downliftSpeed = 15+ 100*(((liftLeft.rotation(vex::rotationUnits::deg))/2 ));
-
-    if(Controller1.ButtonLeft.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)<320){
-      liftLeft.spin(vex::directionType::fwd,medliftSpeed,vex::velocityUnits::rpm);
-      liftRight.spin(vex::directionType::fwd,medliftSpeed,vex::velocityUnits::rpm);
-    }if(Controller1.ButtonUp.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)<350){
+    int liftSpeed = 15+100*(1-(((liftLeft.rotation(vex::rotationUnits::deg)+liftRight.rotation(vex::rotationUnits::deg))/2 )/targetHeight));
+    if(Controller1.ButtonLeft.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)){
+      targetHeight = 320;
+      liftLeft.spin(vex::directionType::fwd,liftSpeed,vex::velocityUnits::rpm);
+      liftRight.spin(vex::directionType::fwd,liftSpeed,vex::velocityUnits::rpm);
+    }if(Controller1.ButtonUp.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)){
       liftLeft.spin(vex::directionType::fwd,highliftSpeed,vex::velocityUnits::rpm);
       liftRight.spin(vex::directionType::fwd,highliftSpeed,vex::velocityUnits::rpm);
-    }if(Controller1.ButtonRight.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)<660){
+    }if(Controller1.ButtonRight.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)){
       liftLeft.spin(vex::directionType::fwd,topliftSpeed,vex::velocityUnits::rpm);
       liftRight.spin(vex::directionType::fwd,topliftSpeed,vex::velocityUnits::rpm);
     }if(Controller1.ButtonDown.pressing()&&liftLeft.rotation(vex::rotationUnits::deg)>0){
@@ -78,8 +67,12 @@ if(Controller1.ButtonB.pressing()==0){
       liftRight.stop(vex::brakeType::hold);
     }
 int tilterSpeed = 20+100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/720));
-    if(Controller1.ButtonX.pressing()){
+    if(Controller1.ButtonX.pressing()&&(tilterMotor.rotation(vex::rotationUnits::deg)<740)){
       tilterMotor.spin(vex::directionType::fwd,tilterSpeed,vex::velocityUnits::rpm);
+      if(tilterMotor.rotation(vex::rotationUnits::deg)>700){
+        intakeLeft.spin(vex::directionType::rev,15,vex::velocityUnits::rpm);
+        intakeRight.spin(vex::directionType::rev,15,vex::velocityUnits::rpm);
+      }
     }else
     if(Controller1.ButtonY.pressing()&&tilterMotor.rotation(vex::rotationUnits::deg)>0){
       tilterMotor.spin(vex::directionType::rev,100,vex::velocityUnits::rpm);
