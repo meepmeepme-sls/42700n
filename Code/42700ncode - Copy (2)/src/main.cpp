@@ -138,24 +138,24 @@ void redShortAutonomous(){
   intakeGroup.spin(fwd,200,rpm);
   drive(1300,1300,1300,50);
   drive(-100,-100,-100,200);
-  leftDrive.rotateFor(-287,deg,160,rpm);
-  drive(-1150,-1150,-1150,70);
-  rightDrive.rotateFor(-287,deg,160,rpm);
-  drive(1200,1200,1200,47);
-  drive(-700,-700,-500,160);
-  drive(380,-380,0,160);
-  drive(433,433,463,200);
+  leftDrive.rotateFor(-270,deg,160,rpm);
+  drive(-1200,-1200,-1200,70);
+  rightDrive.rotateFor(-275,deg,160,rpm);
+  drive(1000,1000,1000,50);
+  drive(-500,-500,-500,160);
+  drive(300,-300,0,160);
+  drive(463,463,-463,200);
   intakeGroup.spin(reverse,300,rpm);
   wait(200,msec);
   intakeGroup.stop();
-  tilterMotor.rotateTo(200,deg,100,rpm);
+  tilterMotor.rotateTo(400,deg,100,rpm);
   intakeGroup.spin(fwd,200,rpm);
-  tilterMotor.rotateTo(400,deg,90,rpm);
-  tilterMotor.rotateTo(600,deg,60,rpm);
+  tilterMotor.rotateTo(600,deg,90,rpm);
+  tilterMotor.rotateTo(800,deg,60,rpm);
   wait(100,msec);
   intakeGroup.spin(reverse,180,rpm);
   wait(50,msec);
-  intakeGroup.spin(reverse,140,rpm);
+  intakeGroup.spin(reverse,200,rpm);
   driveMotors.spin(reverse,200,rpm);
   wait(500,msec);
   intakeGroup.stop();
@@ -211,7 +211,7 @@ void pre_auton(void) {
 void autonomous(void) {
   deploy();
   //leftDrive.rotateFor(-2000,degrees,100,vex::velocityUnits::pct);
-  redShortAutonomous();
+  driveBackAutonomous();
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................

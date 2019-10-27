@@ -22,14 +22,14 @@ vex::brain Brain;
 vex::controller Controller1;
 
 //defines the motor name(port#,gear ratio, reversed setting);
-vex::motor leftFrontDrive(vex::PORT1,vex::gearSetting::ratio18_1,false);
-vex::motor rightFrontDrive(vex::PORT3,vex::gearSetting::ratio18_1,true);
-vex::motor leftBackDrive(vex::PORT2,vex::gearSetting::ratio18_1,false);
-vex::motor rightBackDrive(vex::PORT4,vex::gearSetting::ratio18_1,true);
-vex::motor liftLeft(vex::PORT5,vex::gearSetting::ratio36_1,true);
-vex::motor liftRight(vex::PORT6,vex::gearSetting::ratio36_1,false);
-vex::motor intakeLeft(vex::PORT13,vex::gearSetting::ratio18_1,false);
-vex::motor intakeRight(vex::PORT11,vex::gearSetting::ratio18_1,true);
+vex::motor leftFrontDrive(vex::PORT10,vex::gearSetting::ratio18_1,false);
+vex::motor rightFrontDrive(vex::PORT6,vex::gearSetting::ratio18_1,true);
+vex::motor leftBackDrive(vex::PORT19,vex::gearSetting::ratio18_1,false);
+vex::motor rightBackDrive(vex::PORT20,vex::gearSetting::ratio18_1,true);
+vex::motor liftMotor(vex::PORT9,vex::gearSetting::ratio36_1,false);
+vex::motor tilterMotor(vex::PORT16,vex::gearSetting::ratio36_1,true);
+vex::motor intakeLeft(vex::PORT5,vex::gearSetting::ratio18_1,false);
+vex::motor intakeRight(vex::PORT2,vex::gearSetting::ratio18_1,true);
 
 vex::pot potentiometerControl(Brain.ThreeWirePort.E);
 vex::pot liftPotentiometer(Brain.ThreeWirePort.B);
