@@ -17,7 +17,7 @@ motor  leftDrive = motor(PORT11, ratio18_1, false);
  motor centerDrive=motor( PORT13, ::ratio18_1,true);
  motor tilterMotor=motor( PORT10, ::ratio36_1,false);
 
- motor_group driveMotors =motor_group(leftDrive,rightDrive);
+ motor_group driveMotors =motor_group(leftDrive,rightDrive,centerDrive);
 
  motor_group intakeGroup =motor_group(intakeLeft,intakeRight);
 

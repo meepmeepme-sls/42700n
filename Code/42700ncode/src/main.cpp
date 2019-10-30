@@ -14,6 +14,13 @@ void drive(int lt, int rt, int cd, int ds){//initiates function drive with input
   centerDrive.rotateFor(cd,vex::rotationUnits::deg,ds,vex::velocityUnits::pct,false);
   rightDrive.rotateFor(rt,vex::rotationUnits::deg,ds,vex::velocityUnits::pct);
 }
+
+void softMotion(int drivePower,int driveDuration){
+  driveMotors.spin(fwd,drivePower,rpm);
+  wait(driveDuration,msec);
+  driveMotors.stop();
+  
+}
 void lift(int lh){ //initiates lift function with input lift height
 
   //tells both of the lift motors to rotate to a certain rotation value. Notice that rotateTo is to rotate to say 900deg, rotateFor rotates for 
@@ -231,9 +238,9 @@ void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {//Drive part. Axis1 is the left to right on the left stick. Axis3 is up and down on the left stick. Axis 4 is right and left on the right stick.
     int leftDriveSpeed = ((Controller1.Axis3.value()) + Controller1.Axis1.value());// just some arcade coding. 
-    int rightDriveSpeed = (( Controller1.Axis3.value() )-Controller1.Axis1.value());
-    int strafingSpeed = ((Controller1.Axis3.value()));
-
+    int rightDriveSpeed = (( Controller1.Axis3.value())-Controller1.Axis1.value());
+   // int strafingSpeed = ((Controller1.Axis3.value())-Controller1.Axis1.value()+ Controller1.Axis1.value() );
+  int strafingSpeed = (leftDriveSpeed / rightDriveSpeed);
   Controller1.Screen.print(autonomousSelector.angle());
 //if|then statement you know the drill. This one is checking if ButtonB is being pressed on Controller1.
 if(Controller1.ButtonB.pressing()==0){
@@ -298,14 +305,9 @@ int tilterSpeed = 20+100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600))
     rightDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
     centerDrive.spin(reverse,200,rpm);
       
-    }
-    if(Controller1.ButtonA.pressing()){
-  tilterMotor.rotateTo(800,deg,100,rpm);
-  intakeGroup.spin(reverse,100,pct);
-  wait(100,msec);
-  intakeGroup.spin(reverse,100,pct);
-  driveMotors.spin(reverse,100,pct);
-
+    }else if(Controller1.ButtonA.pressing()){
+      intakeGroup.spin(reverse,60,rpm);
+      driveMotors.spin(reverse,60,rpm);
     }
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
