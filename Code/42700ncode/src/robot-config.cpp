@@ -10,18 +10,18 @@ controller Controller1 = controller();
 // VEXcode device constructors
 motor  leftDrive = motor(PORT11, ratio18_1, false);
  motor rightDrive=motor( PORT15, ::ratio18_1,true);
- motor liftLeft=motor( PORT3, ::ratio36_1,true);
+ motor liftLeft=motor( PORT2, ::ratio36_1,true);
  motor liftRight=motor( PORT8, ::ratio36_1,false);
  motor intakeLeft=motor( PORT9, ::ratio18_1,true);
  motor intakeRight=motor( PORT1, ::ratio18_1,false);
- motor strafingDrive=motor( PORT13, ::ratio18_1,false);
+ motor centerDrive=motor( PORT13, ::ratio18_1,true);
  motor tilterMotor=motor( PORT10, ::ratio36_1,false);
 
- motor_group driveMotors =motor_group(leftDrive,rightDrive);
+ motor_group driveMotors =motor_group(leftDrive,rightDrive,centerDrive);
 
  motor_group intakeGroup =motor_group(intakeLeft,intakeRight);
 
-pot autonomousSelector=pot(Brain.ThreeWirePort.F);
+pot autonomousSelector=pot(Brain.ThreeWirePort.E);
 
 // VEXcode generated functions
 

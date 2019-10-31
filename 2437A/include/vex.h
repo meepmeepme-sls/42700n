@@ -15,21 +15,15 @@
 #include "v5.h"
 #include "v5_vcs.h"
 
-//defines a controller named "Controller1"
 using namespace vex;
-vex::brain Brain; 
-
+vex::brain Brain;
+vex::motor BcRight (vex::PORT1, vex::gearSetting::ratio18_1,true);
+vex::motor RoLift (vex::PORT2, vex::gearSetting::ratio36_1,true);
+vex::motor RaLift (vex::PORT6, vex::gearSetting::ratio36_1,false);
+vex::motor BcLeft (vex::PORT10, vex::gearSetting::ratio18_1,false);
+vex::motor FrRight (vex::PORT11, vex::gearSetting::ratio18_1,true);
+vex::motor RoRight (vex::PORT16, vex::gearSetting::ratio18_1,true);
+vex::motor RoLeft (vex::PORT17, vex::gearSetting::ratio18_1,false);
+vex::motor FrLeft (vex::PORT20, vex::gearSetting::ratio18_1,false);
 vex::controller Controller1;
-
-//defines the motor name(port#,gear ratio, reversed setting);
-vex::motor leftFrontDrive(vex::PORT1,vex::gearSetting::ratio18_1,false);
-vex::motor rightFrontDrive(vex::PORT3,vex::gearSetting::ratio18_1,true);
-vex::motor leftBackDrive(vex::PORT2,vex::gearSetting::ratio18_1,false);
-vex::motor rightBackDrive(vex::PORT4,vex::gearSetting::ratio18_1,true);
-vex::motor liftLeft(vex::PORT5,vex::gearSetting::ratio36_1,true);
-vex::motor liftRight(vex::PORT6,vex::gearSetting::ratio36_1,false);
-vex::motor intakeLeft(vex::PORT13,vex::gearSetting::ratio18_1,false);
-vex::motor intakeRight(vex::PORT11,vex::gearSetting::ratio18_1,true);
-
-vex::pot potentiometerControl(Brain.ThreeWirePort.E);
-vex::pot liftPotentiometer(Brain.ThreeWirePort.B);
+vex::controller Controller2( vex::controllerType::partner );
