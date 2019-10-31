@@ -69,7 +69,7 @@ int tilterSpeed = (100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/800)))-
         tilterMotor.stop(hold);
       }
       
-    if(potentiometerControl.value(vex::percentUnits::pct)<50){
+    
       if(Controller1.ButtonL1.pressing()&&liftMotor.rotation(degrees)<800){
         liftMotor.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
       }else 
@@ -105,7 +105,7 @@ int tilterSpeed = (100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/800)))-
  intakeLeft.spin(reverse,200,rpm);
  intakeRight.spin(reverse,200,rpm);
       }
-    }
+    
     
    
     vex::task::sleep(20); //Sleep the task for a short amount of time to prevent wasted resources. 
