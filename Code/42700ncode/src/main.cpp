@@ -4,7 +4,6 @@ using namespace vex;
 
 // A global instance of competition
 competition Competition;
-int thresh = 20;//sets the lowest motor power state for the drive function. This will allow you to tune the curve of the P control for the drive function.
 
 //basic autonomous functions. 
 void drive(int lt, int rt, int cd, int ds){//initiates function drive with inputs left ticks, right ticks, and d speed
@@ -18,7 +17,7 @@ void drive(int lt, int rt, int cd, int ds){//initiates function drive with input
 void softMotion(int drivePower,int driveDuration){
   driveMotors.spin(fwd,drivePower,rpm);
   wait(driveDuration,msec);
-  driveMotors.stop();
+  driveMotors.stop();//tells drive
   
 }
 void lift(int lh){ //initiates lift function with input lift height
@@ -45,10 +44,10 @@ void lift(int lh){ //initiates lift function with input lift height
         }*/
 
 
-void liftTo(int rotationTarget, int liftTopSpeed, int mode) {//This is the lift target constructor.
+/*void liftTo(int rotationTarget, int liftTopSpeed, int mode) {//This is the lift target constructor.
 
 
- /* while(liftLeft.rotation(vex::rotationUnits::deg)<rotationTarget){
+  while(liftLeft.rotation(vex::rotationUnits::deg)<rotationTarget){
     int liftCurrentDistance = ( liftLeft.rotation(vex::rotationUnits::deg) + liftRight.rotation(vex::rotationUnits::deg) )/2;
 
     int liftCurrentSpeed = ( (thresh*liftTopSpeed) + ((1-thresh)*liftTopSpeed*(1-(liftCurrentDistance/rotationTarget))  ) );
@@ -63,7 +62,7 @@ void liftTo(int rotationTarget, int liftTopSpeed, int mode) {//This is the lift 
       liftRight.startRotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm);
       
       }
-        }*/ 
+        }
   
 //This is an attempted re-write to allow the program to work in both Tele-OP and autonomous, saving lines of code.
     int liftCurrentDistance = ( liftLeft.rotation(vex::rotationUnits::deg) + liftRight.rotation(vex::rotationUnits::deg) )/2;
@@ -100,6 +99,7 @@ void liftTo(int rotationTarget, int liftTopSpeed, int mode) {//This is the lift 
         Controller1.Screen.print("You've set the wrong mode for lift func.");
       }
           }
+          */
 void intake(int intakeMode){//This is the intake constructor.
   if(intakeMode == 0){//This part sets the intake to intake.
     intakeLeft.spin(vex::directionType::fwd,200,vex::velocityUnits::rpm);
