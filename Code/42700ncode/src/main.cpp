@@ -151,7 +151,7 @@ void redShortAutonomous(){
   drive(1200,1200,1200,47);
   drive(-700,-700,-500,160);
   drive(380,-380,0,160);
-  drive(433,433,463,200);
+  softMotion(120,300);
   intakeGroup.spin(reverse,300,rpm);
   wait(200,msec);
   intakeGroup.stop();
@@ -169,9 +169,32 @@ void redShortAutonomous(){
   driveMotors.stop();
 }
 void blueShortAutonomous(){
-  Controller1.Screen.print("blueShortAutonomous");
-  intakeLeft.spin(fwd,100,pct);
-  intakeRight.spin(fwd,100,pct);
+  
+  intakeGroup.spin(fwd,200,rpm);
+  drive(1300,1300,1300,50);
+  drive(-100,-100,-100,200);
+  rightDrive.rotateFor(-270,deg,160,rpm);
+  drive(-1200,-1200,-1200,70);
+  leftDrive.rotateFor(-275,deg,160,rpm);
+  drive(1200,1200,1200,50);
+  drive(-700,-700,-500,160);
+  drive(-365,365,0,160);
+  drive(433,433,463,200);
+  intakeGroup.spin(reverse,300,rpm);
+  wait(200,msec);
+  intakeGroup.stop();
+  tilterMotor.rotateTo(300,deg,100,rpm);
+  intakeGroup.spin(fwd,200,rpm);
+  tilterMotor.rotateTo(400,deg,60,rpm);
+  tilterMotor.rotateTo(600,deg,35,rpm);
+  wait(100,msec);
+  intakeGroup.spin(reverse,180,rpm);
+  wait(50,msec);
+  intakeGroup.spin(reverse,140,rpm);
+  driveMotors.spin(reverse,200,rpm);
+  wait(500,msec);
+  intakeGroup.stop();
+  driveMotors.stop();
 
 }
 void redLongAutonomous(){
@@ -185,7 +208,9 @@ void blueLongAutonomous(){
   intakeLeft.spin(fwd,100,pct);
   intakeRight.spin(fwd,100,pct);
 }
+void skills(){
 
+}
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
@@ -198,7 +223,7 @@ void pre_auton(void) {
   intakeLeft.resetRotation();
   intakeRight.resetRotation();
   tilterMotor.resetRotation();
-  driveMotors.setTimeout(5,sec);
+  driveMotors.setTimeout(3,sec);
   liftLeft.setTimeout(2,sec);
   liftRight.setTimeout(2,sec);
   // All activities that occur before the competition starts
@@ -217,8 +242,31 @@ void pre_auton(void) {
 
 void autonomous(void) {
   deploy();
-  //leftDrive.rotateFor(-2000,degrees,100,vex::velocityUnits::pct);
-  redShortAutonomous();
+  if(autonomousSelector.value(range12bit)<1150){  Controller1.Screen.clearLine();
+
+    Controller1.Screen.print("1");
+    redShortAutonomous();
+  }else if(autonomousSelector.value(range12bit)<1300){  Controller1.Screen.clearLine();
+
+    Controller1.Screen.print("2");
+    driveBackAutonomous();
+  }else if(autonomousSelector.value(range12bit)<2000){  Controller1.Screen.clearLine();
+
+    Controller1.Screen.print("3");
+    blueShortAutonomous();
+  }else if(autonomousSelector.value(range12bit)<3000){  Controller1.Screen.clearLine();
+
+    Controller1.Screen.print("4");
+    redLongAutonomous();
+  }else if(autonomousSelector.value(range12bit)<4000){   Controller1.Screen.clearLine();
+
+    Controller1.Screen.print("5");  
+    blueLongAutonomous();
+  }else{  Controller1.Screen.clearLine();
+
+    Controller1.Screen.print("6");
+    skills();
+  }
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
@@ -240,9 +288,12 @@ void usercontrol(void) {
     int leftDriveSpeed = ((Controller1.Axis3.value()) + Controller1.Axis1.value());// just some arcade coding. 
     int rightDriveSpeed = (( Controller1.Axis3.value())-Controller1.Axis1.value());
    // int strafingSpeed = ((Controller1.Axis3.value())-Controller1.Axis1.value()+ Controller1.Axis1.value() );
-  int strafingSpeed = (leftDriveSpeed / rightDriveSpeed);
-  Controller1.Screen.print(autonomousSelector.angle());
-//if|then statement you know the drill. This one is checking if ButtonB is being pressed on Controller1.
+  int strafingSpeed = (Controller1.Axis3.value());
+  Controller1.Screen.clearLine();
+//Controller1.Screen.setCursor(1,1);
+    Controller1.Screen.print("%d", autonomousSelector.value(vex::analogUnits::range12bit));
+
+  //if|then statement you know the drill. This one is checking if ButtonB is being pressed on Controller1.
 if(Controller1.ButtonB.pressing()==0){
     leftDrive.spin(vex::directionType::fwd,leftDriveSpeed,vex::velocityUnits::pct);
     rightDrive.spin(vex::directionType::fwd,rightDriveSpeed,vex::velocityUnits::pct);
@@ -327,6 +378,10 @@ int tilterSpeed = 20+100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600))
 // Main will set up the competition functions and callbacks.
 //
 int main() {
+  while(Competition.isEnabled()==false){
+    Controller1.Screen.clearLine();
+    Controller1.Screen.print("%d", autonomousSelector.value(vex::analogUnits::range12bit));
+  }
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);

@@ -58,10 +58,10 @@ void usercontrol( void ) {
     leftBackDrive.spin(vex::directionType::fwd,leftBackMotorSpeed,vex::velocityUnits::pct);
     rightBackDrive.spin(vex::directionType::fwd,rightBackMotorSpeed,vex::velocityUnits::pct);  // values based on feedback from the joysticks.
      
-int tilterSpeed = (100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600)))-10;
+int tilterSpeed = (100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/800)))-10;
 //Controller1.Screen.print("%.2f", tilterSpeed);
   //  Controller1.Screen.setCursor(1, 1);
-      if(Controller1.ButtonX.pressing()&&tilterMotor.rotation(degrees)<600){
+      if(Controller1.ButtonX.pressing()&&tilterMotor.rotation(degrees)<800){
         tilterMotor.spin(fwd,tilterSpeed,rpm);
       }else if(Controller1.ButtonY.pressing()&&tilterMotor.rotation(vex::rotationUnits::deg)>0){
         tilterMotor.spin(reverse,100,rpm);
