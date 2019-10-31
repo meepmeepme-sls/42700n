@@ -1,4 +1,4 @@
-#include "vex.h"
+#include "vexb.h"
 
 using namespace vex;
 
@@ -6,281 +6,8 @@ using namespace vex;
 competition Competition;
 
 //basic autonomous functions. 
-void drive(int lt, int rt, int cd, int ds){//initiates function drive with inputs left ticks, right ticks, and d speed
-  //tells each motor to rotate for an amount(Not total.) motorName(distance,rotationUnit,speed,speedunits, blocking param
-  //{Blocking param tells the robot to stop reading lines of code till this code is done running. for rotateTo and rotateFor its true by default})
-  leftDrive.rotateFor(lt,vex::rotationUnits::deg,ds,vex::velocityUnits::pct,false);
-  centerDrive.rotateFor(cd,vex::rotationUnits::deg,ds,vex::velocityUnits::pct,false);
-  rightDrive.rotateFor(rt,vex::rotationUnits::deg,ds,vex::velocityUnits::pct);
-}
-
-void softMotion(int drivePower,int driveDuration){
-  driveMotors.spin(fwd,drivePower,rpm);
-  wait(driveDuration,msec);
-  driveMotors.stop();//tells drive
-  
-}
-void lift(int lh){ //initiates lift function with input lift height
-
-  //tells both of the lift motors to rotate to a certain rotation value. Notice that rotateTo is to rotate to say 900deg, rotateFor rotates for 
-  //900 deg instead.
-  liftLeft.rotateTo(lh,vex::rotationUnits::deg,100,vex::velocityUnits::rpm,false);
-  liftRight.rotateTo(lh,vex::rotationUnits::deg,100,vex::velocityUnits::rpm);
-} 
-/*void drive(int leftTargetDistance, int rightTargetDistance, int driveTopSpeed) { //This is the drive constructor.
-
-  while(leftDrive.rotation(vex::rotationUnits::deg)<leftTargetDistance){//This checks for completion of the drive function.
-
-    int leftCurrentDistance = ( leftDrive.rotation(vex::rotationUnits::deg)  ); //These two lines set up a callback for the drive motor rotation values.
-    int rightCurrentDistance = ( rightDrive.rotation(vex::rotationUnits::deg)  );
-    int leftSpeed = 100*1-(leftCurrentDistance/ leftTargetDistance); //These two lines set up the P control.
-    int rightSpeed = 100*1-(rightCurrentDistance/ rightTargetDistance); //These two lines set up the P control.
-    
-    leftDrive.startRotateTo(leftTargetDistance,vex::rotationUnits::deg,leftSpeed,vex::velocityUnits::rpm); //These two lines set the motor power for the drive function.
-    rightDrive.startRotateTo(rightTargetDistance,vex::rotationUnits::deg,rightSpeed,vex::velocityUnits::rpm);
-      }//end of while loop
-      leftDrive.resetRotation(); //These two lines reset the motor encoders for maximum accuracy.
-      rightDrive.resetRotation();
-        }*/
 
 
-/*void liftTo(int rotationTarget, int liftTopSpeed, int mode) {//This is the lift target constructor.
-
-
-  while(liftLeft.rotation(vex::rotationUnits::deg)<rotationTarget){
-    int liftCurrentDistance = ( liftLeft.rotation(vex::rotationUnits::deg) + liftRight.rotation(vex::rotationUnits::deg) )/2;
-
-    int liftCurrentSpeed = ( (thresh*liftTopSpeed) + ((1-thresh)*liftTopSpeed*(1-(liftCurrentDistance/rotationTarget))  ) );
-
-  if(mode==0){
-
-    liftLeft.rotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm,false);
-
-    liftRight.rotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm);
-    }else if(mode==1){
-      liftLeft.startRotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm);
-      liftRight.startRotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm);
-      
-      }
-        }
-  
-//This is an attempted re-write to allow the program to work in both Tele-OP and autonomous, saving lines of code.
-    int liftCurrentDistance = ( liftLeft.rotation(vex::rotationUnits::deg) + liftRight.rotation(vex::rotationUnits::deg) )/2;
-
-    int liftCurrentSpeed = liftTopSpeed;//( (thresh*liftTopSpeed) + ((1-thresh)*liftTopSpeed*(1-(liftCurrentDistance/rotationTarget))  ) );
-  if(mode == 0){
-
-    while(liftCurrentDistance<rotationTarget){
-      
-    int liftCurrentDistance = ( liftLeft.rotation(vex::rotationUnits::deg) + liftRight.rotation(vex::rotationUnits::deg) )/2;
-
-    int liftCurrentSpeed = ( (thresh*liftTopSpeed) + ((1-thresh)*liftTopSpeed*(1-(liftCurrentDistance/rotationTarget))  ) );
-
-    liftLeft.rotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm,false);
-
-    liftRight.rotateTo(rotationTarget,vex::rotationUnits::deg,liftCurrentSpeed,vex::velocityUnits::rpm);
-
-    }
-
-
-    } else if(mode == 1){
-      if(liftLeft.rotation(vex::rotationUnits::deg) < rotationTarget){
-        liftLeft.spin(vex::directionType::rev,liftCurrentSpeed,vex::velocityUnits::rpm);
-        liftRight.spin(vex::directionType::rev,liftCurrentSpeed,vex::velocityUnits::rpm);
-        }else if(liftLeft.rotation(vex::rotationUnits::deg)>rotationTarget){
-        liftLeft.spin(vex::directionType::fwd,liftCurrentSpeed,vex::velocityUnits::rpm);
-        liftRight.spin(vex::directionType::fwd,liftCurrentSpeed,vex::velocityUnits::rpm);
-
-        }else{
-        liftLeft.stop();
-        liftRight.stop();
-        }
-      }else{
-        Controller1.Screen.print("You've set the wrong mode for lift func.");
-      }
-          }
-          */
-void intake(int intakeMode){//This is the intake constructor.
-  if(intakeMode == 0){//This part sets the intake to intake.
-    intakeLeft.spin(vex::directionType::fwd,200,vex::velocityUnits::rpm);
-    intakeRight.spin(vex::directionType::fwd,200,vex::velocityUnits::rpm);
-    }else if(intakeMode == 1){//This part sets the intake to outtake.
-    intakeLeft.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
-    intakeRight.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
-      }else{//This part sets the intake to stop running.
-      intakeLeft.stop();
-      intakeRight.stop();
-      }
-}
-
-void driveBackAutonomous(){
-  
-    //sets motor to move in a direction at a set velocity. Doesn't say anything else.
-    leftDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
-    rightDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
-    vex::task::sleep(1000);
-    //reverses the spinning after 1 second
-    leftDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
-    rightDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
-    vex::task::sleep(500);
-    //stops both motors after 1/2 a second delay of driving fwd.
-    leftDrive.stop();
-    rightDrive.stop();
-    drive(0,300,0,200);
-    intakeLeft.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
-    intakeRight.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
-}
-void deploy(){
-  intakeLeft.spin(reverse,100,percent);
-  intakeRight.spin(reverse,100,percent);
-  wait(500,msec);
-  intakeLeft.stop();
-  intakeRight.stop();
-}
-
-
-
-void redShortAutonomous(){
-  Controller1.Screen.print("redShortAutonomous");
-  intakeGroup.spin(fwd,200,rpm);
-  drive(1300,1300,1300,50);
-  drive(-100,-100,-100,200);
-  leftDrive.rotateFor(-287,deg,160,rpm);
-  drive(-1150,-1150,-1150,70);
-  rightDrive.rotateFor(-287,deg,160,rpm);
-  drive(1200,1200,1200,47);
-  drive(-700,-700,-500,160);
-  drive(380,-380,0,160);
-  softMotion(120,300);
-  intakeGroup.spin(reverse,300,rpm);
-  wait(200,msec);
-  intakeGroup.stop();
-  tilterMotor.rotateTo(200,deg,100,rpm);
-  intakeGroup.spin(fwd,200,rpm);
-  tilterMotor.rotateTo(400,deg,90,rpm);
-  tilterMotor.rotateTo(600,deg,60,rpm);
-  wait(100,msec);
-  intakeGroup.spin(reverse,180,rpm);
-  wait(50,msec);
-  intakeGroup.spin(reverse,140,rpm);
-  driveMotors.spin(reverse,200,rpm);
-  wait(500,msec);
-  intakeGroup.stop();
-  driveMotors.stop();
-}
-void blueShortAutonomous(){
-  
-  intakeGroup.spin(fwd,200,rpm);
-  drive(1300,1300,1300,50);
-  drive(-100,-100,-100,200);
-  rightDrive.rotateFor(-270,deg,160,rpm);
-  drive(-1200,-1200,-1200,70);
-  leftDrive.rotateFor(-275,deg,160,rpm);
-  drive(1200,1200,1200,50);
-  drive(-700,-700,-500,160);
-  drive(-365,365,0,160);
-  drive(433,433,463,200);
-  intakeGroup.spin(reverse,300,rpm);
-  wait(200,msec);
-  intakeGroup.stop();
-  tilterMotor.rotateTo(300,deg,100,rpm);
-  intakeGroup.spin(fwd,200,rpm);
-  tilterMotor.rotateTo(400,deg,60,rpm);
-  tilterMotor.rotateTo(600,deg,35,rpm);
-  wait(100,msec);
-  intakeGroup.spin(reverse,180,rpm);
-  wait(50,msec);
-  intakeGroup.spin(reverse,140,rpm);
-  driveMotors.spin(reverse,200,rpm);
-  wait(500,msec);
-  intakeGroup.stop();
-  driveMotors.stop();
-
-}
-void redLongAutonomous(){
-  Controller1.Screen.print("redLongAutonomous");
-  intakeLeft.spin(fwd,100,pct);
-  intakeRight.spin(fwd,100,pct);
-  
-}
-void blueLongAutonomous(){
-  Controller1.Screen.print("blueLongAutonomous");
-  intakeLeft.spin(fwd,100,pct);
-  intakeRight.spin(fwd,100,pct);
-}
-void skills(){
-
-}
-
-void pre_auton(void) {
-  // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
-  leftDrive.resetRotation();
-  rightDrive.resetRotation();
-  liftLeft.resetRotation();
-  liftRight.resetRotation();
-  centerDrive.resetRotation();
-  intakeLeft.resetRotation();
-  intakeRight.resetRotation();
-  tilterMotor.resetRotation();
-  driveMotors.setTimeout(3,sec);
-  liftLeft.setTimeout(2,sec);
-  liftRight.setTimeout(2,sec);
-  // All activities that occur before the competition starts
-  // Example: clearing encoders, setting servo positions, ...
-}
-
-/*---------------------------------------------------------------------------*/
-/*                                                                           */
-/*                              Autonomous Task                              */
-/*                                                                           */
-/*  This task is used to control your robot during the autonomous phase of   */
-/*  a VEX Competition.                                                       */
-/*                                                                           */
-/*  You must modify the code to add your own robot specific commands here.   */
-/*---------------------------------------------------------------------------*/
-
-void autonomous(void) {
-  deploy();
-  if(autonomousSelector.value(range12bit)<1150){  Controller1.Screen.clearLine();
-
-    Controller1.Screen.print("1");
-    redShortAutonomous();
-  }else if(autonomousSelector.value(range12bit)<1300){  Controller1.Screen.clearLine();
-
-    Controller1.Screen.print("2");
-    driveBackAutonomous();
-  }else if(autonomousSelector.value(range12bit)<2000){  Controller1.Screen.clearLine();
-
-    Controller1.Screen.print("3");
-    blueShortAutonomous();
-  }else if(autonomousSelector.value(range12bit)<3000){  Controller1.Screen.clearLine();
-
-    Controller1.Screen.print("4");
-    redLongAutonomous();
-  }else if(autonomousSelector.value(range12bit)<4000){   Controller1.Screen.clearLine();
-
-    Controller1.Screen.print("5");  
-    blueLongAutonomous();
-  }else{  Controller1.Screen.clearLine();
-
-    Controller1.Screen.print("6");
-    skills();
-  }
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
-}
-
-/*---------------------------------------------------------------------------*/
-/*                                                                           */
-/*                              User Control Task                            */
-/*                                                                           */
-/*  This task is used to control your robot during the user control phase of */
-/*  a VEX Competition.                                                       */
-/*                                                                           */
-/*  You must modify the code to add your own robot specific commands here.   */
-/*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
   // User control code here, inside the loop
@@ -289,6 +16,8 @@ void usercontrol(void) {
     int rightDriveSpeed = (( Controller1.Axis3.value())-Controller1.Axis1.value());
    // int strafingSpeed = ((Controller1.Axis3.value())-Controller1.Axis1.value()+ Controller1.Axis1.value() );
   int strafingSpeed = (Controller1.Axis3.value());
+
+  int intakeSpeed = 100;
   Controller1.Screen.clearLine();
 //Controller1.Screen.setCursor(1,1);
     Controller1.Screen.print("%d", autonomousSelector.value(vex::analogUnits::range12bit));
@@ -324,7 +53,15 @@ if(Controller1.ButtonB.pressing()==0){
       liftLeft.stop(vex::brakeType::hold);
       liftRight.stop(vex::brakeType::hold);
     }
-int tilterSpeed = 20+100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600));
+
+    //tilt & intake 
+    if(liftLeft.rotation(degrees)>300){
+      intakeSpeed = 100;
+    }else{
+      intakeSpeed =200;
+    }
+int tilterSpeed = 90*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600));
+    tilterSpeed = tilterSpeed<10 ? tilterSpeed : 10; //use of ternary operator to 
     if(Controller1.ButtonX.pressing()&&(tilterMotor.rotation(vex::rotationUnits::deg)<600)){
       tilterMotor.spin(vex::directionType::fwd,tilterSpeed,vex::velocityUnits::rpm);
       if(tilterMotor.rotation(vex::rotationUnits::deg)>700){
@@ -338,8 +75,8 @@ int tilterSpeed = 20+100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600))
       tilterMotor.stop(vex::brakeType::brake);
     }
     if(Controller1.ButtonR2.pressing()){
-      intakeLeft.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
-      intakeRight.spin(vex::directionType::rev,200,vex::velocityUnits::rpm);
+      intakeLeft.spin(vex::directionType::rev,intakeSpeed,vex::velocityUnits::rpm);
+      intakeRight.spin(vex::directionType::rev,intakeSpeed,vex::velocityUnits::rpm);
 
     }else 
     if(Controller1.ButtonR1.pressing()){
@@ -349,6 +86,8 @@ int tilterSpeed = 20+100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600))
       intakeLeft.stop(vex::brakeType::hold);
       intakeRight.stop(vex::brakeType::hold);
     }
+
+    //stack outtake 
     if(Controller1.ButtonB.pressing()){
       intakeLeft.spin(vex::directionType::rev,140,vex::velocityUnits::rpm);
       intakeRight.spin(vex::directionType::rev,140,vex::velocityUnits::rpm);
@@ -356,24 +95,11 @@ int tilterSpeed = 20+100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600))
     rightDrive.spin(vex::directionType::rev,100,vex::velocityUnits::pct);
     centerDrive.spin(reverse,200,rpm);
       
-    }else if(Controller1.ButtonA.pressing()){
-      intakeGroup.spin(reverse,60,rpm);
-      driveMotors.spin(reverse,60,rpm);
-    }
-    // This is the main execution loop for the user control program.
-    // Each time through the loop your program should update motor + servo
-    // values based on feedback from the joysticks.
-
-    // ........................................................................
-    // Insert user code here. This is where you use the joystick values to
-    // update your motors, etc.
-    // ........................................................................
-
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
 }
-
+}
 //
 // Main will set up the competition functions and callbacks.
 //
