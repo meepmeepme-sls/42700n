@@ -29,7 +29,7 @@ vex::motor rightBackDrive(vex::PORT20,vex::gearSetting::ratio18_1,true);
 vex::motor liftMotor(vex::PORT9,vex::gearSetting::ratio36_1,false);
 vex::motor tilterMotor(vex::PORT16,vex::gearSetting::ratio36_1,true);
 vex::motor intakeLeft(vex::PORT5,vex::gearSetting::ratio18_1,false);
-vex::motor intakeRight(vex::PORT2,vex::gearSetting::ratio18_1,true);
+vex::motor intakeRight(vex::PORT17,vex::gearSetting::ratio18_1,true);
 
 vex::pot potentiometerControl(Brain.ThreeWirePort.E);
 vex::pot liftPotentiometer(Brain.ThreeWirePort.B);
