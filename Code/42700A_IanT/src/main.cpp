@@ -30,18 +30,26 @@ void softMove(int movementTime, int pow){
     rightFrontDrive.spin(vex::directionType::fwd,pow,vex::velocityUnits::pct);
     leftBackDrive.spin(vex::directionType::fwd,pow,vex::velocityUnits::pct);
     rightBackDrive.spin(vex::directionType::fwd,pow,vex::velocityUnits::pct);
+    wait(movementTime,msec);
     leftFrontDrive.stop();
     rightFrontDrive.stop();
     leftBackDrive.stop();
     rightBackDrive.stop();
-    vex::task::sleep(movementTime);
 }
 void pre_auton( void ) {
 }
 void autonomous( void ) {//move(axis,distance,power.) axisX = side to side, axisZ = fwd and back, axisXZ and axisZX are diagonals. XZ defaults left.
-  softMove(1000,-100);
-  vex::task::sleep(1000);
-  softMove(1000,100);
+  softMove(2000,-100);
+  wait(100,msec);
+    leftFrontDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+    rightFrontDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+    leftBackDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+    rightBackDrive.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
+    wait(1000,msec);
+    leftFrontDrive.stop();
+    rightFrontDrive.stop();
+    leftBackDrive.stop();
+    rightBackDrive.stop();
   intakeLeft.spin(reverse,100,rpm);
   intakeRight.spin(reverse,100,rpm);
 }
