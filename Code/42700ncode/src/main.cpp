@@ -55,13 +55,13 @@ if(Controller1.ButtonB.pressing()==0){
     }
 
     //tilt & intake 
-    if(liftLeft.rotation(degrees)>300){
-      intakeSpeed = 100;
+    if(liftLeft.rotation(degrees)>200){
+      intakeSpeed = 150;
     }else{
       intakeSpeed =200;
     }
-int tilterSpeed = 90*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600));
-    tilterSpeed = tilterSpeed<10 ? tilterSpeed : 10; //use of ternary operator to 
+int tilterSpeed = 100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600));
+    tilterSpeed = tilterSpeed>20 ? tilterSpeed : 20; //use of ternary operator to 
     if(Controller1.ButtonX.pressing()&&(tilterMotor.rotation(vex::rotationUnits::deg)<600)){
       tilterMotor.spin(vex::directionType::fwd,tilterSpeed,vex::velocityUnits::rpm);
       if(tilterMotor.rotation(vex::rotationUnits::deg)>700){
@@ -97,6 +97,9 @@ int tilterSpeed = 90*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600));
       
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
+  }
+  if(tilterMotor.rotation(degrees)<10&&Controller1.ButtonL1.pressing()){
+    tilterMotor.spin(fwd,100,rpm);
   }
 }
 }
