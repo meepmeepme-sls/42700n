@@ -41,26 +41,14 @@ void ToggleButton(){
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-  if (notweed.value(pct) <= 16 && notweed.value(pct) >= 0) {
-      Brain.Screen.print("Auto: Red 1 ");
-      Controller1.Screen.print("Auto: Red 1                           .");
-    } else if (notweed.value(pct) >= 17 && notweed.value(pct) <= 33) {
-      Brain.Screen.print("Auto: Red 2 ");
-      Controller1.Screen.print("Auto: Red 2                           .");
-    } else if (notweed.value(pct) >= 34 && notweed.value(pct) <= 50) {
-      Brain.Screen.print("Auto: Red 3 ");
-      Controller1.Screen.print("Auto: Red 3                           .");
-    } else if (notweed.value(pct) >= 51 && notweed.value(pct) <= 67) {
-      Brain.Screen.print("Auto: Blue 1");
-      Controller1.Screen.print("Auto: Blue 1                           .");
-    } else if (notweed.value(pct) >= 68 && notweed.value(pct) <= 84) {
-      Brain.Screen.print("Auto: Blue 2");
-      Controller1.Screen.print("Auto: Blue 2                           .");
-    } else if (notweed.value(pct) >= 85 && notweed.value(pct) <= 100) {
-      // Brain.Screen.print("Blue3");
-      Brain.Screen.print("Auto: Blue 3");
-      Controller1.Screen.print("Auto: Blue 3                           .");
-    }
+  autoselectdisplay();
+  
+  /*some config stuff
+  Omni 2.75" = 69.85mm | Standerd 2.75" = 69.85mm | Traction 3.25" = 82.55mm
+  Omni 3.25" = 82.55mm | Standerd 4"    = 101.6mm | Traction 4"    = 101.6mm
+  Omni 4"    = 101.6mm | Standerd 5"    = 127mm   | Mecanum 4"     = 101.6mm
+  in mm for move foward*/
+  WheelDiameter = 8255/100;  //is 82.55mm but c++ dosent like decimals in numbers
   
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
@@ -77,13 +65,19 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
+  //deploy intake and tray
   Lift.rotateFor(fwd, 500, deg);
   //wait(100);
   Lift.rotateFor(fwd, 500, deg, false);
-  if (notweed.value(pct) <= 16 && notweed.value(pct) >= 0) {
+  
+  //auto select
+  //1
+  if (notweed.value(pct) <= 16 && notweed.value(pct) >= 0){
   dz(100, -375);
   dz(100, 100);  
-  } else if (notweed.value(pct) >= 17 && notweed.value(pct) <= 33) {
+  }
+  //2
+  else if (notweed.value(pct) >= 17 && notweed.value(pct) <= 33){
   dx(200, 500);
   wait(1, sec);
   LI.spin(fwd);
@@ -95,14 +89,22 @@ void autonomous(void) {
   LI.spin(reverse);
   RI.spin(fwd);
   dx(100, -150);
-  } else if (notweed.value(pct) >= 34 && notweed.value(pct) <= 50) {
-
-  } else if (notweed.value(pct) >= 51 && notweed.value(pct) <= 67) {
+  }
+  //3
+  else if (notweed.value(pct) >= 34 && notweed.value(pct) <= 50) {
+    
+  }
+  //4
+  else if (notweed.value(pct) >= 51 && notweed.value(pct) <= 67) {
   dz(100, 375);
   dz(100, -100);
-  } else if (notweed.value(pct) >= 68 && notweed.value(pct) <= 84) {
+  } 
+  //5
+  else if (notweed.value(pct) >= 68 && notweed.value(pct) <= 84) {
 
-  } else if (notweed.value(pct) >= 85 && notweed.value(pct) <= 100) {
+  } 
+  //6
+  else if (notweed.value(pct) >= 85 && notweed.value(pct) <= 100) {
 
   }
   // ..........................................................................
@@ -129,6 +131,7 @@ void usercontrol(void) {
     RF.spin(vex::directionType::fwd,-Controller1.Axis3.value() + Controller1.Axis4.value() + Controller1.Axis1.value(),vex::velocityUnits::pct);
     RB.spin(vex::directionType::fwd,-Controller1.Axis3.value() - Controller1.Axis4.value() +Controller1.Axis1.value(),vex::velocityUnits::pct);
     LB.spin(vex::directionType::fwd,Controller1.Axis3.value() - Controller1.Axis4.value() +Controller1.Axis1.value(),vex::velocityUnits::pct);
+    
     //lift
     if(Controller1.ButtonL1.pressing()) {
       Lift.spin(vex::directionType::fwd, 100, vex::velocityUnits::pct);
@@ -139,6 +142,7 @@ void usercontrol(void) {
     else{
       Lift.stop(brake);
     }
+    
     //intake
     if(Controller1.ButtonR2.pressing()) {
       LI.spin(vex::directionType::fwd, 100, vex::velocityUnits::pct);
@@ -152,6 +156,7 @@ void usercontrol(void) {
       LI.stop(brake);
       RI.stop(brake);
     }
+
     //tilter
     if(Controller1.ButtonX.pressing()) {
       tilter.spin(vex::directionType::fwd, 100, vex::velocityUnits::pct);

@@ -11,6 +11,7 @@ extern motor LI;
 extern motor RI;
 extern motor tilter;
 extern pot notweed; 
+extern gyro spinny;
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Text.
  *
