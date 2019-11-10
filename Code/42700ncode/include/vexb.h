@@ -47,7 +47,7 @@ void deploy(){
 void redShortAutonomous(){
   Controller1.Screen.print("redShortAutonomous");
   intakeGroup.spin(fwd,200,rpm);
-  drive(1300,1300,1300,50);
+  drive(1300,1300,1300,60);
   drive(-100,-100,-100,200);
   leftDrive.rotateFor(-287,deg,160,rpm);
   drive(-1150,-1150,-1150,70);
@@ -75,12 +75,12 @@ void redShortAutonomous(){
 void blueShortAutonomous(){
   
   intakeGroup.spin(fwd,200,rpm);
-  drive(1300,1300,1300,50);
+  drive(1300,1300,1300,60);
   drive(-100,-100,-100,200);
   rightDrive.rotateFor(-270,deg,160,rpm);
   drive(-1200,-1200,-1200,70);
   leftDrive.rotateFor(-275,deg,160,rpm);
-  drive(1200,1200,1200,50);
+  drive(1200,1200,1200,47);
   drive(-700,-700,-500,160);
   drive(-365,365,0,160);
   drive(433,433,463,200);
@@ -105,6 +105,8 @@ void redLongAutonomous(){
   Controller1.Screen.print("redLongAutonomous");
   intakeLeft.spin(fwd,100,pct);
   intakeRight.spin(fwd,100,pct);
+  drive(0,1000,0,100);
+  drive(1000,0,0,100);
   
 }
 void blueLongAutonomous(){
