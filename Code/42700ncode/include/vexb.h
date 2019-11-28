@@ -41,73 +41,79 @@ void deploy(){
   intakeLeft.stop();
   intakeRight.stop();
 }
+void stack(){
+  
+  intakeGroup.spin(reverse,300,rpm);
+  wait(300,msec);
+  intakeGroup.stop();
+  tilterMotor.rotateTo(350,deg,100,rpm);
+  intakeGroup.spin(fwd,50,rpm);
+  wait(100,msec);
+  tilterMotor.rotateTo(400,deg,70,rpm);
+  tilterMotor.rotateTo(600,deg,60,rpm);
+  wait(100,msec);
+  //intakeGroup.spin(reverse,180,rpm);
+  wait(50,msec);
+  intakeGroup.spin(reverse,200,rpm);
+  driveMotors.spin(reverse,200,rpm);
+  wait(500,msec);
+  intakeGroup.stop();
+  driveMotors.stop();
+}
 
 
 
 void redShortAutonomous(){
   Controller1.Screen.print("redShortAutonomous");
   intakeGroup.spin(fwd,200,rpm);
-  drive(1300,1300,1300,60);
-  drive(-100,-100,-100,200);
-  leftDrive.rotateFor(-287,deg,160,rpm);
-  drive(-1150,-1150,-1150,70);
-  rightDrive.rotateFor(-287,deg,160,rpm);
-  drive(1200,1200,1200,47);
-  drive(-700,-700,-500,160);
-  drive(380,-380,0,160);
-  softMotion(120,300);
-  intakeGroup.spin(reverse,300,rpm);
-  wait(200,msec);
-  intakeGroup.stop();
-  tilterMotor.rotateTo(200,deg,100,rpm);
-  intakeGroup.spin(fwd,200,rpm);
-  tilterMotor.rotateTo(400,deg,90,rpm);
-  tilterMotor.rotateTo(600,deg,60,rpm);
-  wait(100,msec);
-  intakeGroup.spin(reverse,180,rpm);
-  wait(50,msec);
-  intakeGroup.spin(reverse,140,rpm);
-  driveMotors.spin(reverse,200,rpm);
-  wait(500,msec);
-  intakeGroup.stop();
-  driveMotors.stop();
+  drive(1300,1300,1300,50);
+  drive(-300,-300,-300,200);
+  drive(-135,135,0,180);
+  //leftDrive.rotateFor(-270,deg,170,rpm);
+  drive(-1100,-1100,-1100,70);
+  
+  drive(135,-135,0,180);
+  //rightDrive.rotateFor(-270,deg,170,rpm);
+  drive(1450,1450,1450,40);
+  drive(-450,-450,-450,160);
+  drive(405,-405,0,160);
+  drive(443,443,443,200);
+  //stack();
 }
 void blueShortAutonomous(){
   
   intakeGroup.spin(fwd,200,rpm);
-  drive(1300,1300,1300,60);
+  drive(1300,1300,1300,50);
   drive(-100,-100,-100,200);
-  rightDrive.rotateFor(-270,deg,160,rpm);
+  drive(135,-135,0,180);
+  //rightDrive.rotateFor(-270,deg,170,rpm);
   drive(-1200,-1200,-1200,70);
-  leftDrive.rotateFor(-275,deg,160,rpm);
+  drive(-135,135,0,180);
+  softMotion(-100,200);
+  //leftDrive.rotateFor(-275,deg,170,rpm);
   drive(1200,1200,1200,47);
-  drive(-700,-700,-500,160);
-  drive(-365,365,0,160);
-  drive(433,433,463,200);
-  intakeGroup.spin(reverse,300,rpm);
-  wait(200,msec);
-  intakeGroup.stop();
-  tilterMotor.rotateTo(300,deg,100,rpm);
-  intakeGroup.spin(fwd,200,rpm);
-  tilterMotor.rotateTo(400,deg,60,rpm);
-  tilterMotor.rotateTo(600,deg,35,rpm);
-  wait(100,msec);
-  intakeGroup.spin(reverse,180,rpm);
-  wait(50,msec);
-  intakeGroup.spin(reverse,140,rpm);
-  driveMotors.spin(reverse,200,rpm);
-  wait(500,msec);
-  intakeGroup.stop();
-  driveMotors.stop();
+ // intakeGroup.stop();
+  drive(-750,-750,-750,160);
+  drive(-405,405,0,165);
+  drive(385,385,385,200);
+  wait(600,msec);
+  liftLeft.spin(reverse,10,rpm);
+  liftRight.spin(reverse,10,rpm);
+  //stack();
 
 }
 void redLongAutonomous(){
   Controller1.Screen.print("redLongAutonomous");
-  intakeLeft.spin(fwd,100,pct);
-  intakeRight.spin(fwd,100,pct);
-  drive(0,1000,0,100);
-  drive(1000,0,0,100);
-  
+  drive(-400,-400,-400,200);
+  drive(400,400,400,200);
+  drive(-270,270,270,200);
+  /*
+  softMotion(-200,400);
+
+  intakeGroup.spin(fwd,200,rpm);
+  drive(500,500,500,200);
+  drive(135,-135,0,200);
+  */
 }
 void blueLongAutonomous(){
   Controller1.Screen.print("blueLongAutonomous");
@@ -115,11 +121,29 @@ void blueLongAutonomous(){
   intakeRight.spin(fwd,100,pct);
 }
 void skills(){
-
+  
+  intakeGroup.spin(fwd,200,rpm);
+  drive(1300,1300,1300,50);
+  drive(-100,-100,-100,200);
+  drive(135,-135,0,180);
+  //rightDrive.rotateFor(-270,deg,170,rpm);
+  drive(-1200,-1200,-1200,70);
+  drive(-135,135,0,180);
+  softMotion(-100,200);
+  //leftDrive.rotateFor(-275,deg,170,rpm);
+  drive(1200,1200,1200,47);
+ // intakeGroup.stop();
+  drive(-750,-750,-750,160);
+  drive(-405,405,0,165);
+  drive(385,385,385,200);
+  wait(600,msec);
+  liftLeft.spin(reverse,10,rpm);
+  liftRight.spin(reverse,10,rpm);
+  stack();
 }
 void autonomous(void) {
   deploy();
-  if(autonomousSelector.value(range12bit)<1150){  Controller1.Screen.clearLine();
+  if(autonomousSelector.value(range12bit)<850){  Controller1.Screen.clearLine();
 
     Controller1.Screen.print("1");
     redShortAutonomous();
@@ -134,11 +158,11 @@ void autonomous(void) {
   }else if(autonomousSelector.value(range12bit)<3000){  Controller1.Screen.clearLine();
 
     Controller1.Screen.print("4");
-    redLongAutonomous();
+    blueShortAutonomous();
   }else if(autonomousSelector.value(range12bit)<4000){   Controller1.Screen.clearLine();
 
     Controller1.Screen.print("5");  
-    blueLongAutonomous();
+    redLongAutonomous();
   }else{  Controller1.Screen.clearLine();
 
     Controller1.Screen.print("6");

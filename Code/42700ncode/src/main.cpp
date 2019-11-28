@@ -61,7 +61,9 @@ if(Controller1.ButtonB.pressing()==0){
       intakeSpeed =200;
     }
 int tilterSpeed = 100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600));
-    tilterSpeed = tilterSpeed>20 ? tilterSpeed : 20; //use of ternary operator to 
+    if(tilterSpeed<10){
+      tilterSpeed=10;
+    }
     if(Controller1.ButtonX.pressing()&&(tilterMotor.rotation(vex::rotationUnits::deg)<600)){
       tilterMotor.spin(vex::directionType::fwd,tilterSpeed,vex::velocityUnits::rpm);
       if(tilterMotor.rotation(vex::rotationUnits::deg)>700){
@@ -98,7 +100,7 @@ int tilterSpeed = 100*(1-(tilterMotor.rotation(vex::rotationUnits::deg)/600));
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
-  if(tilterMotor.rotation(degrees)<10&&Controller1.ButtonL1.pressing()){
+  if(tilterMotor.rotation(degrees)<30&&Controller1.ButtonL1.pressing()){
     tilterMotor.spin(fwd,100,rpm);
   }
 }
