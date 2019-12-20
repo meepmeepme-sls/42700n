@@ -56,6 +56,18 @@ void autoselectdisplay(){
   }
 
 }
+void intakeIn(){
+  LI.spin(fwd);
+  RI.spin(reverse);
+}
+void intakeOut(){
+  LI.spin(fwd);
+  RI.spin(reverse);  
+}
+void intakeStop(){
+  LI.stop();
+  RI.stop();
+}
 
 
 /*void inout(int inoutpower, int inoutdri){

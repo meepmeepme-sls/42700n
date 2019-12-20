@@ -1,5 +1,6 @@
 #include "vex.h"
 #include "funtions.h"
+#include "visionModuel.h"
 using namespace vex;
 
 // A global instance of competition
@@ -43,6 +44,7 @@ void pre_auton(void) {
   vexcodeInit();
   autoselectdisplay();
   
+  
   /*some config stuff
   Omni 2.75" = 69.85mm | Standerd 2.75" = 69.85mm | Traction 3.25" = 82.55mm
   Omni 3.25" = 82.55mm | Standerd 4"    = 101.6mm | Traction 4"    = 101.6mm
@@ -65,6 +67,7 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
+  static bool Red;
   //deploy intake and tray
   Lift.rotateFor(fwd, 500, deg);
   //wait(100);
@@ -92,7 +95,7 @@ void autonomous(void) {
   }
   //3
   else if (notweed.value(pct) >= 34 && notweed.value(pct) <= 50) {
-    
+    visionAuto(Red, 10, 150, 105, 210);
   }
   //4
   else if (notweed.value(pct) >= 51 && notweed.value(pct) <= 67) {
@@ -123,14 +126,17 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
+  //Vision signiture varibles
+  static bool Red;
+
   //ToggleState=false;
   // User control code here, inside the loop
   while (1) {
     //drive
     LF.spin(vex::directionType::fwd,Controller1.Axis3.value() + Controller1.Axis4.value() + Controller1.Axis1.value(), vex::velocityUnits::pct);
     RF.spin(vex::directionType::fwd,-Controller1.Axis3.value() + Controller1.Axis4.value() + Controller1.Axis1.value(),vex::velocityUnits::pct);
-    RB.spin(vex::directionType::fwd,-Controller1.Axis3.value() - Controller1.Axis4.value() +Controller1.Axis1.value(),vex::velocityUnits::pct);
-    LB.spin(vex::directionType::fwd,Controller1.Axis3.value() - Controller1.Axis4.value() +Controller1.Axis1.value(),vex::velocityUnits::pct);
+    RB.spin(vex::directionType::fwd,-Controller1.Axis3.value() - Controller1.Axis4.value() + Controller1.Axis1.value(),vex::velocityUnits::pct);
+    LB.spin(vex::directionType::fwd,Controller1.Axis3.value() - Controller1.Axis4.value() + Controller1.Axis1.value(), vex::velocityUnits::pct);
     
     //lift
     if(Controller1.ButtonL1.pressing()) {
@@ -167,6 +173,18 @@ void usercontrol(void) {
     else{
       tilter.stop(brake);
     }
+    
+    //vision test
+    if(Controller1.ButtonLeft.pressing()){
+      visionDriver(Red, 10, 50, 105, 210);
+    }
+    else if(Controller1.ButtonRight.pressing()){
+      visionDriver(Red, 10, 50, 105, 210);
+    }
+    else if (Controller1.ButtonUp.pressing()){
+      visionDriver(Red, 10, 50, 105, 210);
+    }
+    
     
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

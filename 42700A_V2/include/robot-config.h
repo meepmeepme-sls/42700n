@@ -11,7 +11,11 @@ extern motor LI;
 extern motor RI;
 extern motor tilter;
 extern pot notweed; 
-extern gyro spinny;
+//extern gyro spinny;
+//sextern vision Vision;
+extern sonar Sonar;
+
+//extern inertial goodgyro;
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Text.
  *

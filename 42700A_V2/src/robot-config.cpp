@@ -14,7 +14,10 @@ motor LI = motor(PORT5, ratio18_1, false);
 motor RI = motor(PORT17, ratio18_1, false);
 motor tilter = motor(PORT16, ratio18_1, false);
 pot notweed = pot(Brain.ThreeWirePort.A);
-gyro spinny = gyro(Brain.ThreeWirePort.B);
+sonar Sonar = sonar(Brain.ThreeWirePort.C);
+//gyro spinny = gyro(Brain.ThreeWirePort.B);
+//vision Vision = vision(PORT5);
+//inertial goodgyro = inertial(PORT18);
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Text.
