@@ -16,6 +16,7 @@ extern controller Controller1;
 
 extern motor_group driveMotors;
 extern motor_group intakeGroup;
+extern motor_group  liftGroup;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Text.

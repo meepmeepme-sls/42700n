@@ -10,7 +10,7 @@ controller Controller1 = controller();
 // VEXcode device constructors
 motor  leftDrive = motor(PORT11, ratio18_1, false);
  motor rightDrive=motor( PORT15, ::ratio18_1,true);
- motor liftLeft=motor( PORT2, ::ratio36_1,true);
+ motor liftLeft=motor( PORT4, ::ratio36_1,true);
  motor liftRight=motor( PORT8, ::ratio36_1,false);
  motor intakeLeft=motor( PORT9, ::ratio18_1,true);
  motor intakeRight=motor( PORT1, ::ratio18_1,false);
@@ -20,6 +20,8 @@ motor  leftDrive = motor(PORT11, ratio18_1, false);
  motor_group driveMotors =motor_group(leftDrive,rightDrive,centerDrive);
 
  motor_group intakeGroup =motor_group(intakeLeft,intakeRight);
+
+ motor_group liftGroup =motor_group(liftLeft,liftRight);
 
 pot autonomousSelector=pot(Brain.ThreeWirePort.E);
 
