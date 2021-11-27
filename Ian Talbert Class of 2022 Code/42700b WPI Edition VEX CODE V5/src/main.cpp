@@ -6,7 +6,6 @@
 /*    Description:  Competition Template                                      */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
@@ -29,7 +28,7 @@ void usercontrol(void) {
 
 int frontliftop =0;
 int frontliftlockout =0;
-int rearliftop =0;
+int rearliftop =2;
 int rearliftlockout =0;
 bool intakeop =false; // true is fwd, false is stopped.
 bool stingrotop = false; // true is ready to score; false is not
@@ -83,7 +82,7 @@ bool pneutrackerb = true;
       --rearliftop;
       rearliftlockout=50;
     }
-    if(Controller1.ButtonL2.pressing()&&rearliftlockout<0&&rearliftop<2){//down
+    if(Controller1.ButtonL2.pressing()&&rearliftlockout<0&&rearliftop<2){//up
       ++rearliftop;
       rearliftlockout=50;
     }
@@ -131,6 +130,13 @@ bool pneutrackerb = true;
     stingrotop = !stingrotop;
     stinglockout = 100;
   }
+  if(stingrotop == true){
+    stingLift.rotateTo(100,deg,100,rpm);
+  }else if(stingrotop==false){
+    stingLift.rotateTo(0,deg,100,rpm);
+  }else if(!stingLift.isSpinning()){
+    stingLift.stop(hold);
+  }
   --stinglockout;
   //end sting motor control here
 
@@ -164,6 +170,11 @@ bool pneutrackerb = true;
     // ........................................................................
     --pneulockouta;
     --pneulockoutb;
+
+  //int cleanup
+
+  
+
     wait(10, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }//end of while loop

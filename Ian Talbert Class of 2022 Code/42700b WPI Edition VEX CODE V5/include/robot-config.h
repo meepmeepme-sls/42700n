@@ -12,6 +12,7 @@ extern controller Controller1;
   extern motor backRightDrive;
   extern motor intake;
   extern motor rearLift;
+  extern motor stingLift;
 
   extern pot potH;
   extern pot potG;
