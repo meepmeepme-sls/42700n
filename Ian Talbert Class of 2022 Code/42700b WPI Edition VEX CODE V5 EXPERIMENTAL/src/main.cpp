@@ -36,10 +36,13 @@ if(rearLift.rotation(deg)<-300){
 
 int rearliftlockout =0;
 bool intakeop =false; // true is fwd, false is stopped.
-bool stingrotop = false; // true is ready to score; false is not
-if(stingLift.rotation(deg)>600){
-  stingrotop=true;
+int stingrotop = 0; //0 is down position, 1 is driving position, 2 is scoring position
+if(stingLift.rotation(deg)>290){
+  stingrotop=2;
+}else{
+  stingrotop=0;
 }
+int stingcountop =0;
 int stinglockout =0;
 int intakecountop =0;
 int intakelockout =0;
@@ -146,9 +149,9 @@ pneuB.set(false);
       rearLift.stop(hold);
     }
 
-  if(rearliftlockout>-1){
-    --rearliftlockout;
-  }
+    if(rearliftlockout>-1){
+      --rearliftlockout;
+    }
 
   //end rear lift control here
 
@@ -175,29 +178,50 @@ pneuB.set(false);
           }
         }
     }
-    Controller1.Screen.newLine();
-    Controller1.Screen.print(frontliftlockout);
-    --intakelockout;
+    if(intakelockout>-1){
+      --intakelockout;
+    }
   //end intake control here
 
   //begin sting motor control here
 
-  if(Controller1.ButtonA.pressing()&&stinglockout<0){
-    stingrotop = !stingrotop;
-    stinglockout = 5;
-  }
-  if(stingrotop == true&&stingLift.rotation(deg)<650){
+  if(Controller1.ButtonA.pressing()){
+      ++stingcountop;
+        if(stingcountop>3){
+            stingrotop =3;
+            stingcountop=0;
+            stinglockout =5;
+        }else if(stinglockout<0){
+          stinglockout =5;
+          stingcountop =0;
+          if(stingrotop ==0){
+            stingrotop=1;
+          }else{
+            stingrotop=0;
+          }
+        }
+    }
+  if(stingrotop == 2&&stingLift.rotation(deg)<640){
    // stingLift.rotateTo(650,deg,100,rpm,false);
-    stingLift.spin(fwd,100,pct);
-  }else if(stingrotop==false&&stingLift.rotation(deg)>0){
+    //stingLift.spin(fwd,100,pct);
+    stingLift.startRotateTo(640,deg,100,rpm);
+  }else if(stingrotop == 1&&stingLift.rotation(deg)<330){
+   // stingLift.rotateTo(650,deg,100,rpm,false);
+    stingLift.startRotateTo(330,deg,100,rpm);
+  }else if(stingrotop==0&&stingLift.rotation(deg)>0){
    // stingLift.rotateTo(0,deg,100,rpm,false);
-    stingLift.spin(reverse,100,pct);
-  }else if(!stingLift.isSpinning()){
+    //stingLift.spin(reverse,100,pct);
+    stingLift.startRotateTo(0,deg,100,rpm);
+  }else if((!stingLift.isSpinning()&&stingrotop!=4)||Controller1.ButtonUp.pressing()){
     stingLift.stop(hold);
+    if(Controller1.ButtonUp.pressing()){
+      stingLift.resetRotation();
+    }
   }
 
   if(Controller1.ButtonDown.pressing()){//allows resetting encoder position if desynced
     stingLift.spin(reverse,30,pct);
+    stingrotop=4;
     stingLift.resetRotation();
   }
 
