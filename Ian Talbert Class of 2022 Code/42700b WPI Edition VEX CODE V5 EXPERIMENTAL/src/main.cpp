@@ -25,9 +25,6 @@ int rearmotorspeed;
 void usercontrol(void) {
 
 //motor operators
-
-int frontliftop =0;
-int frontliftlockout =0;
 int rearliftop =3;
 
 if(rearLift.rotation(deg)<-300){
@@ -128,11 +125,11 @@ pneuB.set(false);
 
     if(Controller1.ButtonL2.pressing()&&rearliftlockout<0&&rearliftop>0){//down
       --rearliftop;
-      rearliftlockout=5;
+      rearliftlockout=15;
     }
     if(Controller1.ButtonL1.pressing()&&rearliftlockout<0&&rearliftop<3){//up
       ++rearliftop;
-      rearliftlockout=5;
+      rearliftlockout=15;
     }
 
   //rear lift movement
@@ -159,13 +156,13 @@ pneuB.set(false);
 
     if(Controller1.ButtonX.pressing()){
       ++intakecountop;
-        if(intakecountop>3){
+        if(intakecountop>20){
             intakeop = false;
             intake.spin(reverse,100,pct);
             intakecountop=0;
-            intakelockout =5;
+            intakelockout =25;
         }else if(intakelockout<0){
-          intakelockout =5;
+          intakelockout =25;
           intakecountop =0;
           if(intakeop ==false){
             intake.spin(fwd,100,pct);
@@ -178,21 +175,19 @@ pneuB.set(false);
           }
         }
     }
-    if(intakelockout>-1){
-      --intakelockout;
-    }
+    --intakelockout;
   //end intake control here
 
   //begin sting motor control here
 
   if(Controller1.ButtonA.pressing()){
       ++stingcountop;
-        if(stingcountop>3){
-            stingrotop =3;
+        if(stingcountop>20){
+            stingrotop =2;
             stingcountop=0;
-            stinglockout =5;
+            stinglockout =25;
         }else if(stinglockout<0){
-          stinglockout =5;
+          stinglockout =25;
           stingcountop =0;
           if(stingrotop ==0){
             stingrotop=1;
@@ -201,28 +196,30 @@ pneuB.set(false);
           }
         }
     }
-  if(stingrotop == 2&&stingLift.rotation(deg)<640){
+  if(stingrotop == 2){
    // stingLift.rotateTo(650,deg,100,rpm,false);
     //stingLift.spin(fwd,100,pct);
-    stingLift.startRotateTo(640,deg,100,rpm);
-  }else if(stingrotop == 1&&stingLift.rotation(deg)<330){
+    stingLift.startRotateTo(630,deg,100,rpm);
+  }else if(stingrotop == 1){
    // stingLift.rotateTo(650,deg,100,rpm,false);
     stingLift.startRotateTo(330,deg,100,rpm);
-  }else if(stingrotop==0&&stingLift.rotation(deg)>0){
+  }else if(stingrotop==0){
    // stingLift.rotateTo(0,deg,100,rpm,false);
     //stingLift.spin(reverse,100,pct);
     stingLift.startRotateTo(0,deg,100,rpm);
-  }else if((!stingLift.isSpinning()&&stingrotop!=4)||Controller1.ButtonUp.pressing()){
-    stingLift.stop(hold);
-    if(Controller1.ButtonUp.pressing()){
-      stingLift.resetRotation();
-    }
+  }else if(!stingLift.isSpinning()){
+    //stingLift.stop(hold);
+    //if(Controller1.ButtonUp.pressing()){
+      //stingLift.resetRotation();
+    //}
   }
 
   if(Controller1.ButtonDown.pressing()){//allows resetting encoder position if desynced
     stingLift.spin(reverse,30,pct);
     stingrotop=4;
     stingLift.resetRotation();
+  }else if(!stingLift.isSpinning()){
+    stingLift.stop(hold);
   }
 
   if(stinglockout>-1){
@@ -238,7 +235,7 @@ pneuB.set(false);
   if(Controller1.ButtonY.pressing()&&pneulockoutb<0){
       pneuB.set(pneutrackerb);
       pneutrackerb = !pneutrackerb;
-      pneulockoutb = 5;
+      pneulockoutb = 25;
     }
   
     if(pneulockoutb>-1){
@@ -248,7 +245,7 @@ pneuB.set(false);
     if(Controller1.ButtonB.pressing()&&stingoutlock == true &&pneulockouta<0){
       pneuA.set(pneutrackera);
       pneutrackera = !pneutrackera;
-      pneulockouta = 5;
+      pneulockouta = 25;
     }
     if(pneulockouta>-1){
     --pneulockouta;

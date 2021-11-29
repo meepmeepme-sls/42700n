@@ -14,14 +14,9 @@ void simpleDrive(int ld, int rd,int rs) { // ld = left displacement (deg), rd = 
   rightDriveMotorGroup.stop(hold);
 }
 
-void idletowards(bool dir){
-  if(dir==true){
-    leftDriveMotorGroup.spin(fwd,20,pct);
-    rightDriveMotorGroup.spin(fwd,20,pct);
-  }else{
-    leftDriveMotorGroup.spin(reverse,20,pct);
-    rightDriveMotorGroup.spin(reverse,20,pct);
-  }
+void idletowards(vex::directionType movement){
+    leftDriveMotorGroup.spin(movement,25,pct);
+    rightDriveMotorGroup.spin(movement,25,pct);
 }
 
 void drivestop(){
@@ -45,8 +40,8 @@ void rearLiftTo(int rltr, bool block){ // rltr = rear lift to rotation (deg), bl
   rearLift.rotateTo(rltr,deg,200,rpm,block);
 }
 //  intakeSpin is a shortcut to rotation.
-void intakeSpin(int isr){// isr = intake spin rotation (RPM)
-  intake.spin(fwd,isr,rpm);
+void intakeSpin(vex::directionType ir){// isr = intake spin rotation (RPM)
+  intake.spin(ir,200,rpm);
 }
 // intakeStop stops the intake rotation.
 void intakeStop(){// no integers, just a shortcut.
@@ -142,6 +137,10 @@ void drivePD(double leftFinalValue,double rightFinalValue){
   rightDriveMotorGroup.stop();
 }
 
+void lhd(){
+  frontLift.spin(fwd,20,rpm);
+}
+
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
@@ -171,7 +170,7 @@ void crlob(){
   simpleDrive(800,800,200);
   simpleDrive(100,0,200);
   simpleDrive(100,100,200);
-  idletowards(true);
+  idletowards(fwd);
   wait(40,msec);
   clawtoggle();
   simpleDrive(-100,-100,200);
@@ -187,7 +186,21 @@ void ccrlob(){
 
 //lcrmap = left center rush mogo, autonomous point. crmap rushes to secure the left centermost mogo, then secure the left alliance mogo and score in it.**PRIORITIZE**
 void lcrmap(){
-
+  lhd();
+  simpleDrive(1000, 1000, 200);
+  idletowards(fwd);
+  wait(1300,msec);
+  clawtoggle();
+  wait(300,msec);
+  drivestop();
+  frontLiftTo(-50, false);
+  simpleDrive(-1000,-1000,200);
+  stingLiftTo(300);
+  simpleDrive(-175,175,150);
+  rearLiftTo(-480, true);
+  simpleDrive(-450, -450, 200);
+  rearLiftTo(-230,true);
+  intakeSpin(fwd);
 }
 
 //rcrmap = right center rush mogo, autonomous point. crmap rushes to secure the right centermost mogo, then secure the right alliance mogo and score in it.**PRIORITIZE**
@@ -205,7 +218,7 @@ void uniauto(){
 
 void autonomous(void) {
   if(potGauto.value(deg)<60){
-    crlob();
+    lcrmap();
   }else if(potGauto.value(deg)<120){
 
   }else if(potGauto.value(deg)<180){
