@@ -13,7 +13,7 @@ motor backLeftDrive = motor (PORT16,ratio18_1, false);
 motor frontRightDrive = motor (PORT1,ratio18_1, true);
 motor backRightDrive = motor (PORT4,ratio18_1, true);
 motor intake = motor (PORT19,ratio18_1, false);
-motor rearLift = motor (PORT2,ratio36_1, false);
+motor rearLift = motor (PORT6,ratio36_1, false);
 motor stingLift = motor (PORT13,ratio36_1, false);
 
 pot potHside = pot (Brain.ThreeWirePort.H); // bot one physically.

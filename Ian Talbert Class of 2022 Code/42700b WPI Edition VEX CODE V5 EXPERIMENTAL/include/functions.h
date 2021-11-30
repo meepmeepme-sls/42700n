@@ -10,8 +10,6 @@ void simpleDrive(int ld, int rd,int rs) { // ld = left displacement (deg), rd = 
                            // displacement (deg), rs = rotation speed (RPM)
   leftDriveMotorGroup.rotateFor(ld, deg, rs, rpm, false);
   rightDriveMotorGroup.rotateFor(rd, deg, rs, rpm, true);
-  leftDriveMotorGroup.stop(hold);
-  rightDriveMotorGroup.stop(hold);
 }
 
 void idletowards(vex::directionType movement){
@@ -144,6 +142,12 @@ void lhd(){
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
+  leftDriveMotorGroup.resetRotation();
+  rightDriveMotorGroup.resetRotation();
+  frontLift.resetRotation();
+  rearLift.resetRotation();
+  stingLift.resetRotation();
+  intake.resetRotation();
 
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
@@ -187,20 +191,27 @@ void ccrlob(){
 //lcrmap = left center rush mogo, autonomous point. crmap rushes to secure the left centermost mogo, then secure the left alliance mogo and score in it.**PRIORITIZE**
 void lcrmap(){
   lhd();
-  simpleDrive(1000, 1000, 200);
+  simpleDrive(1100, 1100, 200);
   idletowards(fwd);
-  wait(1300,msec);
+  wait(400,msec);
   clawtoggle();
-  wait(300,msec);
+  wait(200,msec);
   drivestop();
   frontLiftTo(-50, false);
-  simpleDrive(-1000,-1000,200);
+  simpleDrive(-800,-800,200);
   stingLiftTo(300);
   simpleDrive(-175,175,150);
   rearLiftTo(-480, true);
   simpleDrive(-450, -450, 200);
   rearLiftTo(-230,true);
   intakeSpin(fwd);
+
+  simpleDrive(250, -250, 200);
+  frontLiftTo(-100, false);
+  simpleDrive(800,800,100);
+  wait(100,msec);
+  simpleDrive(-900,-900,200);
+
 }
 
 //rcrmap = right center rush mogo, autonomous point. crmap rushes to secure the right centermost mogo, then secure the right alliance mogo and score in it.**PRIORITIZE**

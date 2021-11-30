@@ -27,8 +27,8 @@ void usercontrol(void) {
 //motor operators
 int rearliftop =3;
 
-if(rearLift.rotation(deg)<-300){
-  rearliftop =2;
+if(rearLift.rotation(deg)<-10){
+  rearliftop =0;
 }
 
 int rearliftlockout =0;
@@ -166,6 +166,9 @@ pneuB.set(false);
           intakecountop =0;
           if(intakeop ==false){
             intake.spin(fwd,100,pct);
+            if(stingrotop==0){
+              intake.spin(fwd,50,pct);
+            }
             intakeop = !intakeop;
             intakecountop =0;
           }else{
