@@ -35,7 +35,7 @@ int rearliftlockout =0;
 bool intakeop =false; // true is fwd, false is stopped.
 int stingrotop = 0; //0 is down position, 1 is driving position, 2 is scoring position
 if(stingLift.rotation(deg)>290){
-  stingrotop=2;
+  stingrotop=1;
 }else{
   stingrotop=0;
 }
@@ -50,9 +50,8 @@ int pneulockouta =-1;
 int pneulockoutb =-1;
 bool stingoutlock = true;
 bool pneutrackera = true;
-bool pneutrackerb = true;
+bool pneutrackerb = !pneuB.value();
 pneuA.set(false);
-pneuB.set(false);
 
   // User control code here, inside the loop
   while (1) {
@@ -105,7 +104,7 @@ pneuB.set(false);
   */
 
   if(Controller1.ButtonR1.pressing()&&frontLift.rotation(deg)>-810){//up
-    frontLift.spin(reverse,(frontLift.rotation(deg)+810),pct);
+    frontLift.spin(reverse,(frontLift.rotation(deg)+830),pct);
   }else if(Controller1.ButtonR2.pressing()&&frontLift.rotation(deg)<20){//down
     frontLift.spin(fwd,abs(frontLift.rotation(deg)-20),pct);    
   }else{
@@ -123,7 +122,7 @@ pneuB.set(false);
 
   //operator stuff
 
-    if(Controller1.ButtonL2.pressing()&&rearliftlockout<0&&rearliftop>0){//down
+    if(Controller1.ButtonL2.pressing()&&rearliftlockout<0&&rearliftop>-1){//down
       --rearliftop;
       rearliftlockout=15;
     }
@@ -135,9 +134,11 @@ pneuB.set(false);
   //rear lift movement
 
     if(rearliftop==2){
-      rearLift.startRotateTo(-230,deg,100,rpm);
-    }else if(rearliftop==1){
-      rearLift.startRotateTo(-360,deg,100,rpm);
+      rearLift.startRotateTo(-225,deg,100,rpm);
+    }else if(rearliftop==-1){
+      rearLift.startRotateTo(-570,deg,100,rpm);
+    }else   if(rearliftop==1){
+      rearLift.startRotateTo(-330,deg,100,rpm);
     }else if(rearliftop==0){
       rearLift.startRotateTo(-480,deg,100,rpm);
     }else if(rearliftop ==3){
@@ -148,6 +149,10 @@ pneuB.set(false);
 
     if(rearliftlockout>-1){
       --rearliftlockout;
+    }
+    if(Controller1.ButtonUp.pressing()){
+      rearLift.spin(fwd,100,rpm);
+      rearLift.resetRotation();
     }
 
   //end rear lift control here
@@ -165,9 +170,9 @@ pneuB.set(false);
           intakelockout =25;
           intakecountop =0;
           if(intakeop ==false){
-            intake.spin(fwd,100,pct);
+            intake.spin(fwd,90,pct);
             if(stingrotop==0){
-              intake.spin(fwd,50,pct);
+              intake.spin(fwd,75,pct);
             }
             intakeop = !intakeop;
             intakecountop =0;
@@ -199,6 +204,13 @@ pneuB.set(false);
           }
         }
     }
+  if(Controller1.ButtonRight.pressing()){
+    stingrotop = 3;
+  }
+
+  if(stingrotop == 3){
+    stingLift.startRotateTo(900,deg,100,rpm);
+  }else
   if(stingrotop == 2){
    // stingLift.rotateTo(650,deg,100,rpm,false);
     //stingLift.spin(fwd,100,pct);
@@ -287,6 +299,8 @@ int main() {
 
   // Prevent main from exiting with an infinite loop.
   while (true) {
+    Controller1.Screen.print(potGauto.value(pct));
+    Controller1.Screen.newLine();
     wait(100, msec);
   }
 }

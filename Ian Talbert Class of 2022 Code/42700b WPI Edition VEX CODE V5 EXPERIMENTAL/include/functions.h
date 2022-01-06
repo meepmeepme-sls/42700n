@@ -38,8 +38,8 @@ void rearLiftTo(int rltr, bool block){ // rltr = rear lift to rotation (deg), bl
   rearLift.rotateTo(rltr,deg,200,rpm,block);
 }
 //  intakeSpin is a shortcut to rotation.
-void intakeSpin(vex::directionType ir){// isr = intake spin rotation (RPM)
-  intake.spin(ir,200,rpm);
+void intakeSpin(vex::directionType ir, int intspinspeed = 200){// isr = intake spin rotation (RPM)
+  intake.spin(ir,intspinspeed,rpm);
 }
 // intakeStop stops the intake rotation.
 void intakeStop(){// no integers, just a shortcut.
@@ -47,7 +47,12 @@ void intakeStop(){// no integers, just a shortcut.
 }
 
 bool clawsigner =true;
+bool stingsigner =true;
 
+void stingtoggle(){
+      pneuA.set(stingsigner);
+      stingsigner = !stingsigner;
+}
 void clawtoggle(){
       pneuB.set(clawsigner);
       clawsigner = !clawsigner;
@@ -136,7 +141,7 @@ void drivePD(double leftFinalValue,double rightFinalValue){
 }
 
 void lhd(){
-  frontLift.spin(fwd,20,rpm);
+  frontLift.spin(fwd,60,rpm);
 }
 
 void pre_auton(void) {
@@ -148,6 +153,8 @@ void pre_auton(void) {
   rearLift.resetRotation();
   stingLift.resetRotation();
   intake.resetRotation();
+
+  Controller1.Screen.print(potGauto.value(deg));
 
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
@@ -161,16 +168,9 @@ void stingLiftTo (int rot){
 autonomous functions are below
 */
 
-// liftoff lifts a nearby rear mogo up.
-void liftoff(){
-rearLiftTo(200,false);
-simpleDrive(-300,-300,150);
-wait(500,msec);
-rearLiftTo(670,true);
-}
 
 // crlob = center rush left of bridge. crlob rushes to secure the centermost mogo, then the short mogo.
-void crlob(){
+/*void crlob(){
   simpleDrive(800,800,200);
   simpleDrive(100,0,200);
   simpleDrive(100,100,200);
@@ -181,64 +181,127 @@ void crlob(){
   rearLiftTo(-490,true);
   stingLiftTo(650);
   
-}
+}*/
 
-// ccrlob = center, center rush left of bridge. ccrlob rushes to secure the centermost mogo, then the left side neutral mogo.
-void ccrlob(){
 
-}
-
-//lcrmap = left center rush mogo, autonomous point. crmap rushes to secure the left centermost mogo, then secure the left alliance mogo and score in it.**PRIORITIZE**
-void lcrmap(){
+//lcrmaprob = left center rush mogo, autonomous point. crmap rushes to secure the left centermost mogo, then secure the left alliance mogo and score in it.(right of bridge)**PRIORITIZE**
+void rcrmap(){
   lhd();
   simpleDrive(1100, 1100, 200);
+  frontLift.stop(brake);
   idletowards(fwd);
-  wait(400,msec);
+  wait(650,msec);
   clawtoggle();
-  wait(200,msec);
+  wait(170,msec);
   drivestop();
-  frontLiftTo(-50, false);
+  frontLiftTo(-100, false);
   simpleDrive(-800,-800,200);
+  frontLiftTo(20,true);
   stingLiftTo(300);
+  frontLiftTo(-100,false);
   simpleDrive(-175,175,150);
   rearLiftTo(-480, true);
-  simpleDrive(-450, -450, 200);
-  rearLiftTo(-230,true);
-  intakeSpin(fwd);
+  simpleDrive(-550, -550, 200);
+  rearLiftTo(-225,true);
+  intakeSpin(fwd,200);
 
-  simpleDrive(250, -250, 200);
+  //below is ring intake function. Consider removing. 
+  simpleDrive(20,20,200);
+  //simpleDrive(230, -230, 200);
   frontLiftTo(-100, false);
+  /*
   simpleDrive(800,800,100);
   wait(100,msec);
-  simpleDrive(-900,-900,200);
-
+  simpleDrive(-1100,-1100,200);
+*/
 }
 
-//rcrmap = right center rush mogo, autonomous point. crmap rushes to secure the right centermost mogo, then secure the right alliance mogo and score in it.**PRIORITIZE**
-void rcrmap(){
+void lcrmap(){
+  frontLiftTo(-100,false);
+  stingtoggle();
+  intakeSpin(fwd, 100);
+  simpleDrive(1200,1200, 200);
+  intakeStop();
+  frontLiftTo(0,true);
+  lhd();
+  idletowards(fwd);
+  wait(300,msec);
+  clawtoggle();
+  //goes towards center neutral goal while intaking rings onto stinger. 
 
+  wait(100,msec);
+  frontLiftTo(-50,false);
+  simpleDrive(-1000,-1000,200);
+  stingtoggle();
+  stingLiftTo(300);
+  //drives back across line, closes stinger and lifts to a height out of the way
+
+  simpleDrive(-200,200,150);
+  rearLiftTo(-480,true);
+  simpleDrive(-400,-400,200);
+  rearLiftTo(-230,false);
+  //grabs the ramp alliance mogo
+
+  frontLiftTo(-100,false);
+  intakeSpin(fwd);
+  simpleDrive(400, 400, 150);
+  simpleDrive(230,-230,150);
+  simpleDrive(400,400,100);
+  //feeds the cross shapes of rings into the alliance mogo; end of function
+  
 }
-void uniauto(){
-  simpleDrive(-800, -800, 170);
-  simpleDrive(-250, -250, 100);
-  rearLiftTo(400,true);
-  simpleDrive(900,900,200);
-  frontLiftTo(-490,true);
-  simpleDrive(-200,200,200);//200 is about 80 degrees
+
+void lrsn(){//left, rush short neutral mogo
+  lhd();
+  simpleDrive(1100,1100,200);
+  idletowards(fwd);
+  wait(250,msec);
+  clawtoggle();
+  wait(170,msec);
+  simpleDrive(-1200,-1200,200);
+  simpleDrive(-100,100,150);
+  stingLiftTo(300);
+  rearLiftTo(-480, true);
+  simpleDrive(-400, -400, 200);
+  rearLiftTo(-230, true);
+  intakeSpin(fwd);
 }
+
+void lrsnars(){//left, rush short neutral mogo, alliance rings scored (base off of lrsn)
+  lhd();
+  simpleDrive(1100,1100,200);
+  idletowards(fwd);
+  wait(250,msec);
+  clawtoggle();
+  wait(170,msec);
+  simpleDrive(-1200,-1200,200);
+  simpleDrive(-100,100,150);
+  stingLiftTo(300);
+  rearLiftTo(-480, true);
+  simpleDrive(-400, -400, 200);
+  rearLiftTo(-230, true);
+  intakeSpin(fwd);
+}
+void rwap(){
+  stingLiftTo(300);
+  rearLiftTo(-480,true);
+  simpleDrive(-400,-400,150);
+  idletowards(reverse);
+  wait(200,msec);
+  rearLiftTo(-330,true);
+  intakeSpin(fwd,150);
+  drivestop();
+}
+
 
 void autonomous(void) {
-  if(potGauto.value(deg)<60){
+  if(potGauto.value(deg)<25){
     lcrmap();
-  }else if(potGauto.value(deg)<120){
+  }else if(potGauto.value(pct)<50){
 
-  }else if(potGauto.value(deg)<180){
-
-  }else if(potGauto.value(deg)<240){
-
-  }else if(potGauto.value(deg)<300){
-
-  }else{
-    
+  }else if(potGauto.value(pct)<75){
+    rwap();
+  }else if(potGauto.value(pct)<100){
+    rcrmap();
   }
 }
