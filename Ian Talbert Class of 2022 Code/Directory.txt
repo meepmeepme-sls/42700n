@@ -1,0 +1,19 @@
+42700B Intermediary between BIG ISLAND EAST and WPI
+-
+For programming Big Island Robot
+
+42700b WPI Edition VEX CODE V5
+-
+For programming WPI bot, early version
+
+42700b WPI Edition VEX CODE V5 EXPERIMENTAL
+-
+For programming WPI bot, late version
+
+42700BNANA
+-
+For programming West Oahu bot
+
+42700B Sauron
+-
+For programming Waianae bot
