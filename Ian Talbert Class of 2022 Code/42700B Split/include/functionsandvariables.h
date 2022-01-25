@@ -55,11 +55,16 @@ void simpleDrive(int ld, int rd, int pow){
 void gyroTurn(int gturntarget, double mult){
   imu.setHeading(180, deg);
   int gturnoptarget = gturntarget-imu.heading(deg);
-  while(imu.heading()!=gturntarget){
+  int i = 1;
+  while(imu.heading()!=gturntarget && i <600){
+    if(imu.heading()>gturntarget-0.1 && imu.heading()<gturntarget+0.1){
+      i++;
+    }
     leftDrive.spin(fwd,1.2*mult*(gturntarget-imu.heading(deg)),volt);
     rightDrive.spin(fwd,-1.2*mult*(gturntarget-imu.heading(deg)),volt);
     Controller.Screen.newLine();
     Controller.Screen.print(imu.heading(deg));
+    wait(1,msec);
   }
   leftDrive.stop(hold);
   rightDrive.stop(hold);
@@ -77,9 +82,11 @@ void senseGo(int distimeout, int speed){
 }
 
 void biasdrive(int lrot,int rrot, int lpow, int rpow){// true = wait to complete for left, 
+leftDrive.resetRotation();
+rightDrive.resetRotation();
 leftDrive.rotateFor(lrot,deg,lpow,velocityUnits::pct,false);
 rightDrive.rotateFor(rrot,deg,rpow,velocityUnits::pct,false);
-while(leftDrive.isSpinning()||rightDrive.isSpinning()){
+while(leftDrive.isSpinning()||rightDrive.isSpinning()||((lrot-leftDrive.rotation(deg)>0)&&(rrot-rightDrive.rotation(deg)>0))){
   wait(1,msec);
 }
 
@@ -148,10 +155,11 @@ void rawp(){
 
 void leftsideSHAcounter(){//grab middle neutral then continue into high middle goal to disrupt autonomous.
   senseGo(5000,100);
-  biasdrive(-100,20,-5000,100);
+  biasdrive(-1000,20,-5000,100);
   simpleDrive(-1000,-1000,100);
   simpleDrive(2000,2000,100);
   simpleDrive(0,1000,100);
+
   ftoggle();
   
 }
