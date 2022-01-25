@@ -22,7 +22,7 @@ motor_group leftDrive = motor_group(frontLeft,midLeft,rearLeft);
 motor_group rightDrive = motor_group(frontRight,midRight,rearRight);
 motor_group lift = motor_group(leftLift,rightLift);
 
-inertial imu = inertial(PORT19);
+inertial imu = inertial(PORT4);
 
 digital_in frontLimit = digital_in(expand.D);
 digital_in rearLimit = digital_in(expand.E);

@@ -8,6 +8,13 @@ This section includes variables for use in autonomous, driver control
 /*
 This section includes functions for use in autonomous, driver control
 */
+bool driveHoldOp = false;
+
+void driveHold(){
+  driveHoldOp =!driveHoldOp;
+}
+
+
 bool liftManualTracker = false; //default false = manual control.
 
 int liftpotoffset = 15;
@@ -45,12 +52,17 @@ void simpleDrive(int ld, int rd, int pow){
   rightDrive.rotateFor(rd, deg, pow,velocityUnits::pct,true);
 }
 
-void gyroTurn(int gturntarget, int mult){
+void gyroTurn(int gturntarget, double mult){
+  imu.setHeading(180, deg);
   int gturnoptarget = gturntarget-imu.heading(deg);
   while(imu.heading()!=gturntarget){
-    leftDrive.spin(fwd,12*mult*(gturntarget-imu.heading(deg)),volt);
-    rightDrive.spin(fwd,-12*mult*(gturntarget-imu.heading(deg)),volt);
+    leftDrive.spin(fwd,1.2*mult*(gturntarget-imu.heading(deg)),volt);
+    rightDrive.spin(fwd,-1.2*mult*(gturntarget-imu.heading(deg)),volt);
+    Controller.Screen.newLine();
+    Controller.Screen.print(imu.heading(deg));
   }
+  leftDrive.stop(hold);
+  rightDrive.stop(hold);
 }
 
 void senseGo(int distimeout, int speed){
@@ -65,11 +77,13 @@ void senseGo(int distimeout, int speed){
 }
 
 void biasdrive(int lrot,int rrot, int lpow, int rpow){// true = wait to complete for left, 
-leftDrive.rotateFor(lrot,deg,lpow,velocityUnits::pct);
-rightDrive.rotateFor(rrot,deg,rpow,velocityUnits::pct);
+leftDrive.rotateFor(lrot,deg,lpow,velocityUnits::pct,false);
+rightDrive.rotateFor(rrot,deg,rpow,velocityUnits::pct,false);
 while(leftDrive.isSpinning()||rightDrive.isSpinning()){
   wait(1,msec);
 }
+
+
 }
 
 void liftTo(int lrotation){
@@ -114,10 +128,9 @@ void soloawp(){
 }
 
 void lawp(){
-  rtoggle();
-  simpleDrive(400,400,50);
-  simpleDrive(-750,750,50);
-  senseGo(150,100);
+  gyroTurn(90, .1);
+  simpleDrive(100, 100, 30);
+  gyroTurn(90, .1);
 }
 
 void rawp(){

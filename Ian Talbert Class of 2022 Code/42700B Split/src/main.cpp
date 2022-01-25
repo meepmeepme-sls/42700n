@@ -23,6 +23,7 @@ void pre_auton(void) {
   while(imu.isCalibrating()){
     wait(100,msec);
   }
+  imu.setHeading(180, deg);
 }
 void autonomous(void) {
     Controller.Screen.newLine();
@@ -49,6 +50,16 @@ void usercontrol(void) {
     Controller.Screen.print(rightDrive.rotation(deg));
     Controller.ButtonY.pressed(ftoggle);
     Controller.ButtonB.pressed(rtoggle);
+    Controller.ButtonDown.pressed(driveHold);
+
+    if(driveHoldOp){
+      leftDrive.stop(hold);
+      rightDrive.stop(hold);
+    }else{
+      leftDrive.stop(coast);
+      rightDrive.stop(coast);
+    }
+    
     leftDrive.spin(fwd,Controller.Axis3.value()+.7*Controller.Axis1.value(),pct);
     rightDrive.spin(fwd,Controller.Axis3.value()-.7*Controller.Axis1.value(),pct);
 
@@ -76,10 +87,6 @@ void usercontrol(void) {
     }
     */
 
-  if(Controller.ButtonDown.pressing()&&(leftDrive.velocity(rpm)+(leftDrive.velocity(rpm))<=5)){
-   leftDrive.stop(hold);
-   rightDrive.stop(hold);
-  }
     wait(20, msec);
   }
 }
