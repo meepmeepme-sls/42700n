@@ -30,7 +30,9 @@ digital_out frontClaw = digital_out(Brain.ThreeWirePort.A);
 digital_out rearClaw = digital_out(Brain.ThreeWirePort.B);
 
 pot potGAuto = pot(Brain.ThreeWirePort.G);
-pot liftLevel = pot(Brain.ThreeWirePort.H);
+pot liftLevel = pot(expand.H);
+
+triport expand = triport(PORT8);
 
 color autoncolor = color(3*(potGAuto.value(pct)),4*(potGAuto.value(pct)),potGAuto.value(pct));
 

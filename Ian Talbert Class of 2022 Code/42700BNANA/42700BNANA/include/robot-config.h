@@ -32,6 +32,8 @@ extern pot potGAuto;
 extern pot liftLevel;
 
 extern color autoncolor;
+
+extern triport expand;
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  *
