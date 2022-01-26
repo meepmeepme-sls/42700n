@@ -5,7 +5,7 @@ using namespace vex;
 // A global instance of brain used for printing to the V5 brain screen
 brain Brain;
 controller Controller;
-triport expand = triport(PORT15);
+triport expand = triport(PORT16);
 
 motor frontLeft = motor(PORT6,ratio6_1,true);
 motor midLeft = motor(PORT9,ratio6_1,true);

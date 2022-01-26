@@ -71,7 +71,7 @@ void usercontrol(void) {
       liftManualTracker = false;
       lift.spin(reverse,liftLevel.value(deg)-liftpotoffset+10,pct);
     }else if(liftManualTracker == false){
-      lift.stop(brake);
+      lift.stop(hold);
     }
 
     if(Controller.ButtonUp.pressing()){// lifts the lift to a preset height for platform scoring.
